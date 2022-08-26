@@ -1,0 +1,51 @@
+Requerido para funcionamento correto do sistema:
+  * E-mail cadastrado no dominio desejado para utilização.
+  * Uma ou mais contas de e-mails para administração.
+  * Token gerado na Hostgator para gerenciamento através de uma API.
+
+Abrir sistema pela primeira vez:
+  Gerenciador de atualizações:
+    * Buscar por novas atualizações do sistema.
+      * Caso exista, solicitar download da mesma.
+      * Após conclusão de download, abrir o executável para instalação da nova versão.
+
+  Verificar existencia do arquivo de configuração "config.ini":
+    * Caso não exista um arquivo de configuração:
+      * Abrir a tela de configuração do sistema.
+    * Caso exista um arquivo de configuração "config.ini":
+      * Carregar configuração em uma classe estática (class var) para ser utilizada no sistema.
+      * Popular informações para login do usuário
+        * LabelEdit com Usuário e senha
+
+Configurações:
+  Ao abrir as configurações, caso exista informação no Class var, utilizar para popular.
+  Ao selecionar "mostrar senha" solicitar tela de "acesso a API", validando o usuário administrador para mostrar o token.
+    * Caso acesso concedido, salvar informação que é o usuário admin em uma variável durante o uso da tela.
+
+  Salvando novas configurações:
+    * Validar se todos os dados estão preenchidos;
+    * Salvo as informações do Token no arquivo "config.ini", criptografando essa informação.
+    * Salvar demais informações no arquivo "config.ini"
+    * Salvar configurações no SysInfo nos Class var para ser utilizado em todo o sistema.
+
+Utilização do sistema:
+  Após efetuado login no sistema, carregar todas as contas de e-mail cadastradas para aquele dominio.
+    * Adicionar a informação em um ComboBox para seleção.
+  Possibilidades de usabilidade:
+    * Adição de novos e-mails.
+    * Alteração de senha de e-mails existentes.
+    * Deletar um e-mail existente.
+    * Caso seja solicitado para deletar/alterar uma conta de e-mail do usuário utilizado para acesso à aplicação, 
+      solicitar tela de "acesso a API" para confirmação de usuário.
+
+Tratamento de erros:
+  * Necessidade de utilização de uma mensagem tratada para erros no sistema
+  * Demonstrar uma mensagem amigável com o erro reportado.
+
+Testes unitários:
+  * Necessidade de criação de um teste unitário que garanta pleno funcionamento das funcionalidades do sistema:
+    * Acesso;
+    * Inclusão de e-mail;
+    * Alteração de senhas;
+    * Exclusão de e-mails;
+
