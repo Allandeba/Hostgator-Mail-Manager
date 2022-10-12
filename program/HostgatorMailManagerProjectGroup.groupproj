@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{DF4E8AF5-AD92-4151-8B90-FE0A05A857E5}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\Delphi\Packages\Framework\Framework.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Delphi\Packages\Components\Components.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Delphi\Packages\SysUtils\SysUtils.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="HostgatorMailManagerProject.dproj">
+            <Dependencies>..\..\Delphi\Packages\Framework\Framework.dproj;..\..\Delphi\Packages\Components\Components.dproj;..\..\Delphi\Packages\SysUtils\SysUtils.dproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Framework">
+        <MSBuild Projects="..\..\Delphi\Packages\Framework\Framework.dproj"/>
+    </Target>
+    <Target Name="Framework:Clean">
+        <MSBuild Projects="..\..\Delphi\Packages\Framework\Framework.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Framework:Make">
+        <MSBuild Projects="..\..\Delphi\Packages\Framework\Framework.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Components">
+        <MSBuild Projects="..\..\Delphi\Packages\Components\Components.dproj"/>
+    </Target>
+    <Target Name="Components:Clean">
+        <MSBuild Projects="..\..\Delphi\Packages\Components\Components.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Components:Make">
+        <MSBuild Projects="..\..\Delphi\Packages\Components\Components.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SysUtils">
+        <MSBuild Projects="..\..\Delphi\Packages\SysUtils\SysUtils.dproj"/>
+    </Target>
+    <Target Name="SysUtils:Clean">
+        <MSBuild Projects="..\..\Delphi\Packages\SysUtils\SysUtils.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SysUtils:Make">
+        <MSBuild Projects="..\..\Delphi\Packages\SysUtils\SysUtils.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="HostgatorMailManagerProject" DependsOnTargets="Framework;Components;SysUtils">
+        <MSBuild Projects="HostgatorMailManagerProject.dproj"/>
+    </Target>
+    <Target Name="HostgatorMailManagerProject:Clean" DependsOnTargets="Framework:Clean;Components:Clean;SysUtils:Clean">
+        <MSBuild Projects="HostgatorMailManagerProject.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="HostgatorMailManagerProject:Make" DependsOnTargets="Framework:Make;Components:Make;SysUtils:Make">
+        <MSBuild Projects="HostgatorMailManagerProject.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Framework;Components;SysUtils;HostgatorMailManagerProject"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Framework:Clean;Components:Clean;SysUtils:Clean;HostgatorMailManagerProject:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Framework:Make;Components:Make;SysUtils:Make;HostgatorMailManagerProject:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
