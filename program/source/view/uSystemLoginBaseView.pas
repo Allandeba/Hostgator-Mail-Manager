@@ -4,13 +4,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  uADPasswordButtonEdit, uADComboBox, uFrameworkView, System.Classes;
+  uADPasswordButtonEdit, uADComboBox, uFrameworkView, System.Classes, Vcl.Mask;
 
 type
   TSystemLoginBaseView = class(TFrameworkView)
     ButtonLogin: TButton;
-    ADComboBoxCompany: TADComboBox;
     ADPasswordButtonedEdit: TADPasswordButtonedEdit;
+    LabeledEditUsername: TLabeledEdit;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure ButtonLoginClick(Sender: TObject);
   private
@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  uConsts, Vcl.Imaging.pngimage;
+  uConsts, Vcl.Imaging.pngimage, uStrHelper;
 
 {$R *.dfm}
 
@@ -75,7 +75,7 @@ end;
 
 procedure TSystemLoginBaseView.EnabledComponentes;
 begin
-  ButtonLogin.Enabled := ADComboBoxCompany.ComboBox.Text <> '';
+  ButtonLogin.Enabled := not LabeledEditUsername.IsEmpty;
 end;
 
 procedure TSystemLoginBaseView.FormKeyPress(Sender: TObject; var Key: Char);
@@ -87,8 +87,8 @@ end;
 procedure TSystemLoginBaseView.PrepareComponents;
 begin
   inherited;
-  ADComboBoxCompany.TabStop := False;
   ButtonLogin.ModalResult := mrNone;
+  BorderStyle := bsNone;
   ConfigureADButtonedPasswordEditImages;
   EnabledComponentes;
 end;

@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uSystemLoginBaseView,
-  uADPasswordButtonEdit, Vcl.ExtCtrls, uADComboBox, Vcl.StdCtrls;
+  uADPasswordButtonEdit, Vcl.ExtCtrls, uADComboBox, Vcl.StdCtrls, Vcl.Mask;
 
 type
   TSystemLoginView = class(TSystemLoginBaseView)
