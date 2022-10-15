@@ -9,6 +9,7 @@ type
   TSystemStartup = class
   private
     class procedure CheckVersion;
+    class procedure LoadSessionInformation;
   {$HINTS OFF}
     class function ShowSystemLogin: TModalResult;
   {$HINTS ON}
@@ -20,7 +21,7 @@ type
 implementation
 
 uses
-  Vcl.Forms, uHostgatorMailManagerView, uSystemLoginView, uVersionUpdateController, uFrameworkMessage, uMessages;
+  Vcl.Forms, uHostgatorMailManagerView, uSystemLoginView, uVersionUpdateController, uFrameworkMessage, uMessages, uConfigurationController;
 
 { TSystemStartup }
 
@@ -30,7 +31,7 @@ var
 begin
   AVersionControlController := TVersionUpdateController.Create;
   try
-    if not AVersionControlController.HasUpdatedVersion then
+    if AVersionControlController.HasUpdatedVersion then
     begin
       TMessageView.New(MSG_0013).Show;
       AVersionControlController.UpdateVersion;
@@ -46,10 +47,25 @@ begin
   ReportMemoryLeaksOnShutdown := True;
   {$ENDIF}
 
+  {$IFDEF RELEASE}
   CheckVersion;
+  {$ENDIF}
+  LoadSessionInformation;
 
   if ShowSystemLogin = mrOk then
     ShowGerenciadorEmail;
+end;
+
+class procedure TSystemStartup.LoadSessionInformation;
+var
+  AConfigurationController: TConfigurationController;
+begin
+  AConfigurationController := TConfigurationController.Create;
+  try
+    AConfigurationController.LoadSessionInformation;
+  finally
+    AConfigurationController.Free;
+  end;
 end;
 
 class function TSystemStartup.ShowSystemLogin: TModalResult;
