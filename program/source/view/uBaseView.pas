@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameworkVIew,
-  uADPasswordButtonEdit;
+  uADPasswordButtonedEdit, Vcl.ExtCtrls;
 
 type
   TBaseView = class(TFrameworkView)
@@ -12,12 +12,14 @@ type
     procedure AddImage(_AImagePasswordButtonEditList: TImagePasswordButtonEditList; _AImageFilePath: String);
   protected
     procedure AddImagesToADPasswordButtonedEdit(_ADPasswordButtonedEdit: TADPasswordButtonedEdit);
+    procedure AddImageToImageComponent(_Image: TImage; _ImageFilePath: String);
+    procedure PrepareComponents; override;
   end;
 
 implementation
 
 uses
-  uConsts;
+  uConsts, uFrameworkMessage, uMessages;
 
 {$R *.dfm}
 
@@ -52,6 +54,20 @@ begin
   finally
     AImagePasswordButtonEditList.Free;
   end;
+end;
+
+procedure TBaseView.AddImageToImageComponent(_Image: TImage; _ImageFilePath: String);
+begin
+  if not FileExists(_ImageFilePath) then
+    TMessageView.New(MSG_0012).Detail(Format('%s\nTSystemLoginView.ConfigureImage', [_ImageFilePath])).ShowAndAbort;
+
+  _Image.Picture.LoadFromFile(_ImageFilePath);
+end;
+
+procedure TBaseView.PrepareComponents;
+begin
+  inherited;
+  BorderStyle := bsDialog;
 end;
 
 end.
