@@ -12,7 +12,7 @@ type
   public
     function GetMainAPIMail: String;
 
-    property TemporaryToken: String read FTemporaryToken write FTemporaryToken;
+    property Token: String read FTemporaryToken write FTemporaryToken;
     property Domain: String read FDomain write FDomain;
     property MainUsername: String read FMainUsername write FMainUsername;
   end;

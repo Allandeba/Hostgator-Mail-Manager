@@ -52,7 +52,7 @@ end;
 
 procedure TConfigurationView.FillSessionManager;
 begin
-  TSessionManager.GetSessionInfo.TemporaryToken := ADPasswordButtonedEditToken.Text.Trim;
+  TSessionManager.GetSessionInfo.Token := ADPasswordButtonedEditToken.Text.Trim;
   TSessionManager.GetSessionInfo.Domain := LabeledEditDomain.Text.Trim;
   TSessionManager.GetSessionInfo.MainUsername := LabeledEditMainUsername.Text.Trim;
 end;

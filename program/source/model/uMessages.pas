@@ -12,7 +12,7 @@ const
   MSG_0001 = 'Values must be filled to continue' + MSG_CRLF + 'Fill in the values before send the informations.';
   MSG_0002 = 'Error processing informations!' + MSG_CRLF + '%s';
   MSG_0003 = 'Successfully processed!';
-  MSG_0004 = INVALID_OPERATION + MSG_CRLF + 'Password is invalid to this username.';
+  MSG_0004 = INVALID_OPERATION + MSG_CRLF + 'Password is invalid for the username.';
   MSG_0007 = INVALID_OPERATION + MSG_CRLF + 'You must have a valid user to delete.';
   MSG_0006 = 'Administrator required!' + MSG_CRLF + 'You must use the administrator password to modify this user.';
   MSG_0005 = MISSING_INFORMATION + MSG_CRLF + 'There are not mails to be loaded.';

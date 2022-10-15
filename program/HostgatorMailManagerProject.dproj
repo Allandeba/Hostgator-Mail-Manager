@@ -126,6 +126,8 @@
         <DCCReference Include="source\controller\uConfigurationController.pas"/>
         <DCCReference Include="source\model\uConfiguration.pas"/>
         <DCCReference Include="source\model\uTokenManager.pas"/>
+        <DCCReference Include="source\model\uLogin.pas"/>
+        <DCCReference Include="source\controller\uLoginController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
