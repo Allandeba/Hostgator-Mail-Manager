@@ -6,13 +6,13 @@ type
 
   TSessionInfo = class
   private
-    FToken: String;
+    FTemporaryToken: String;
     FDomain: String;
     FMainUsername: String;
   public
     function GetMainAPIMail: String;
 
-    property Token: String read FToken write FToken;
+    property TemporaryToken: String read FTemporaryToken write FTemporaryToken;
     property Domain: String read FDomain write FDomain;
     property MainUsername: String read FMainUsername write FMainUsername;
   end;

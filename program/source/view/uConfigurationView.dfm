@@ -1,10 +1,17 @@
 inherited ConfigurationView: TConfigurationView
   Caption = 'ConfigurationView'
-  ClientHeight = 176
-  ClientWidth = 294
-  ExplicitWidth = 306
-  ExplicitHeight = 214
+  ClientHeight = 174
+  ClientWidth = 295
+  ExplicitWidth = 311
+  ExplicitHeight = 213
   TextHeight = 15
+  object ImageTokenInformation: TImage
+    Left = 8
+    Top = 153
+    Width = 16
+    Height = 16
+    OnClick = ImageTokenInformationClick
+  end
   object LabeledEditMainUsername: TLabeledEdit
     Left = 8
     Top = 72

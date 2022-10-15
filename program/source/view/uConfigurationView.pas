@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameworkView,
-  Vcl.ExtCtrls, uADPasswordButtonEdit, Vcl.StdCtrls, Vcl.Mask, uBaseView;
+  Vcl.ExtCtrls, uADPasswordButtonedEdit, Vcl.StdCtrls, Vcl.Mask, uBaseView;
 
 type
   TConfigurationView = class(TBaseView)
@@ -12,10 +12,14 @@ type
     LabeledEditMainUsername: TLabeledEdit;
     ADPasswordButtonedEditToken: TADPasswordButtonedEdit;
     ButtonSave: TButton;
+    ImageTokenInformation: TImage;
     procedure ButtonSaveClick(Sender: TObject);
+    procedure ImageTokenInformationClick(Sender: TObject);
   private
     procedure ValidateComponentRequire;
+    procedure ValidateRetrievingTokenInformation;
     procedure FillSessionManager;
+    procedure ConfigureReloadImage;
   protected
     procedure PrepareComponents; override;
   end;
@@ -23,7 +27,7 @@ type
 implementation
 
 uses
-  uStrHelper, uSessionManager, uFrameworkMessage, uMessages;
+  uStrHelper, uSessionManager, uMessages, uTokenManager, uSystemInfo, uFrameworkMessage;
 
 {$R *.dfm}
 
@@ -36,26 +40,57 @@ begin
   ModalResult := mrOk;
 end;
 
+procedure TConfigurationView.ConfigureReloadImage;
+begin
+  ImageTokenInformation.Width := 16;
+  ImageTokenInformation.Height := 16;
+  ImageTokenInformation.Hint := 'Retrieve token information';
+  AddImageToImageComponent(ImageTokenInformation, TSystemInfo.GetFilePathRetrieveTokenInformationImage);
+end;
+
 procedure TConfigurationView.FillSessionManager;
 begin
-  TSessionManager.GetSessionInfo.Token := ADPasswordButtonedEditToken.Text.Trim;
+  TSessionManager.GetSessionInfo.TemporaryToken := ADPasswordButtonedEditToken.Text.Trim;
   TSessionManager.GetSessionInfo.Domain := LabeledEditDomain.Text.Trim;
   TSessionManager.GetSessionInfo.MainUsername := LabeledEditMainUsername.Text.Trim;
+end;
+
+procedure TConfigurationView.ImageTokenInformationClick(Sender: TObject);
+const
+  PASSWORD_CHAR = #9;
+var
+  APassword: String;
+begin
+  ValidateRetrievingTokenInformation;
+  APassword := InputBox('Retrieve token information', PASSWORD_CHAR + 'Please enter the main user password', '');
+  if APassword.IsEmpty then
+    Exit;
+
+  ADPasswordButtonedEditToken.Text := TTokenManager.GetToken(APassword);
 end;
 
 procedure TConfigurationView.PrepareComponents;
 begin
   inherited;
   AddImagesToADPasswordButtonedEdit(ADPasswordButtonedEditToken);
-  ADPasswordButtonedEditToken.Text := TSessionManager.GetSessionInfo.Token;
   LabeledEditDomain.Text := TSessionManager.GetSessionInfo.Domain;
-  LabeledEditMainUsername.Text := TSessionManager.GetSessionInfo.GetMainAPIMail;
+  LabeledEditMainUsername.Text := TSessionManager.GetSessionInfo.MainUsername;
+  ConfigureReloadImage;
 end;
 
 procedure TConfigurationView.ValidateComponentRequire;
 begin
   if ADPasswordButtonedEditToken.Text.IsEmpty or LabeledEditDomain.Text.IsEmpty or LabeledEditMainUsername.Text.IsEmpty then
     TMessageView.New(MSG_0010).ShowAndAbort;
+end;
+
+procedure TConfigurationView.ValidateRetrievingTokenInformation;
+begin
+  if ADPasswordButtonedEditToken.Text.IsEmpty then
+    Exit;
+
+  if TMessageView.New(MSG_0014).Buttons([baYesNo]).Warning.ShowResult <> mrYes then
+    Abort;
 end;
 
 end.

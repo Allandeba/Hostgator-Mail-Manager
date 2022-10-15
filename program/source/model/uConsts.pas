@@ -40,6 +40,7 @@ const
 
   IMG_BUTTON_PASSWORD_1 = IMG_FOLDER + 'closed_eye.png';
   IMG_BUTTON_PASSWORD_2 = IMG_FOLDER + 'opened_eye.png';
+  IMG_RETRIEVE_TOKEN_INFORMATION = IMG_FOLDER + 'sync-configuration.png';
 
   // GitHub configuration
   GITHUB_OWNER_USERNAME = 'Allandeba';

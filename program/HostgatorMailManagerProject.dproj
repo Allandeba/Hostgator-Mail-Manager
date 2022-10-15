@@ -123,6 +123,9 @@
             <Form>BaseView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="source\controller\uConfigurationController.pas"/>
+        <DCCReference Include="source\model\uConfiguration.pas"/>
+        <DCCReference Include="source\model\uTokenManager.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

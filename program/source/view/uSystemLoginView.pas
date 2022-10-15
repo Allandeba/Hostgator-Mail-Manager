@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uSystemLoginBaseView,
-  uADPasswordButtonEdit, Vcl.ExtCtrls, uADComboBox, Vcl.StdCtrls, Vcl.Mask;
+  uADPasswordButtonedEdit, Vcl.ExtCtrls, uADComboBox, Vcl.StdCtrls, Vcl.Mask, uADImage;
 
 type
   TSystemLoginView = class(TSystemLoginBaseView)
@@ -14,8 +14,6 @@ type
     procedure ConfigureImage;
     procedure FillLoginInformation;
     procedure ControlComponentsEnabled;
-
-    function CanFillLoginInformation: Boolean;
   protected
     procedure PrepareComponents; override;
   end;
@@ -27,20 +25,11 @@ uses
 
 {$R *.dfm}
 
-function TSystemLoginView.CanFillLoginInformation: Boolean;
-begin
-  Result := LabeledEditUsername.Text.IsEmpty;
-end;
-
 procedure TSystemLoginView.ConfigureImage;
-var
-  AImageFilePath: String;
 begin
-  AImageFilePath := TSystemInfo.GetFilePathConfigImage;
-  if not FileExists(AImageFilePath) then
-    TMessageView.New(MSG_0012).Detail(Format('%s\nTSystemLoginView.ConfigureImage', [AImageFilePath])).ShowAndAbort;
-
-  ImageConfig.Picture.LoadFromFile(AImageFilePath);
+  ImageConfig.Width := 16;
+  ImageConfig.Height := 16;
+  AddImageToImageComponent(ImageConfig, TSystemInfo.GetFilePathConfigImage);
 end;
 
 procedure TSystemLoginView.ControlComponentsEnabled;
@@ -59,7 +48,7 @@ var
 begin
   AConfigurationView := TConfigurationView.Create(Self);
   try
-    if (AConfigurationView.ShowModal = mrOk) and CanFillLoginInformation then
+    if AConfigurationView.ShowModal = mrOk then
     begin
       FillLoginInformation;
       if ADPasswordButtonedEdit.CanFocus then

@@ -3,7 +3,7 @@ unit uSessionManager;
 interface
 
 uses
-  uSessionInfo, System.Classes;
+  uSessionInfo, System.Classes, uConfiguration;
 
 type
   TSessionManager = class
@@ -15,13 +15,13 @@ type
     {$HINTS ON}
   public
     class function GetSessionInfo: TSessionInfo;
-    class procedure PopularConfiguracaoSessionManager(_AConfigFile: TStringList);
+    class procedure FillSessionManagerConfiguration(_SeessionManagerConfiguration: TSessionManagerConfiguration);
   end;
 
 implementation
 
 uses
-  System.SysUtils, uConsts;
+  System.SysUtils;
 
 { TSessionManager }
 
@@ -37,10 +37,10 @@ begin
   Result := FSessionInfo;
 end;
 
-class procedure TSessionManager.PopularConfiguracaoSessionManager(_AConfigFile: TStringList);
+class procedure TSessionManager.FillSessionManagerConfiguration(_SeessionManagerConfiguration: TSessionManagerConfiguration);
 begin
-  GetSessionInfo.Domain := _AConfigFile.Values[SYSTEM_PARAM_DOMAIN];
-  GetSessionInfo.MainUsername := _AConfigFile.Values[SYSTEM_PARAM_MAIN_USERNAME];
+  GetSessionInfo.Domain := _SeessionManagerConfiguration.Domain;
+  GetSessionInfo.MainUsername := _SeessionManagerConfiguration.MainUsername;
 end;
 
 initialization

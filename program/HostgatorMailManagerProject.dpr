@@ -13,7 +13,10 @@ uses
   uSystemLoginView in 'source\view\uSystemLoginView.pas' {SystemLoginView},
   uHostgatorMailManagerView in 'source\view\uHostgatorMailManagerView.pas' {HostgatorMailManagerView},
   uConfigurationView in 'source\view\uConfigurationView.pas' {ConfigurationView},
-  uBaseView in 'source\view\uBaseView.pas' {BaseView};
+  uBaseView in 'source\view\uBaseView.pas' {BaseView},
+  uConfigurationController in 'source\controller\uConfigurationController.pas',
+  uConfiguration in 'source\model\uConfiguration.pas',
+  uTokenManager in 'source\model\uTokenManager.pas';
 
 {$R *.res}
 
