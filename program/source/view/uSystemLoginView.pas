@@ -13,7 +13,6 @@ type
   private
     procedure ConfigureImage;
     procedure FillLoginInformation;
-    procedure ControlComponentsEnabled;
   protected
     procedure PrepareComponents; override;
   end;
@@ -32,11 +31,6 @@ begin
   AddImageToImageComponent(ImageConfig, TSystemInfo.GetFilePathConfigImage);
 end;
 
-procedure TSystemLoginView.ControlComponentsEnabled;
-begin
-  ButtonLogin.Enabled := not LabeledEditUsername.Text.IsEmpty;
-end;
-
 procedure TSystemLoginView.FillLoginInformation;
 begin
   LabeledEditUsername.Text := TSessionManager.GetSessionInfo.GetMainAPIMail;
@@ -51,9 +45,7 @@ begin
     if AConfigurationView.ShowModal = mrOk then
     begin
       FillLoginInformation;
-      if ADPasswordButtonedEdit.CanFocus then
-        ADPasswordButtonedEdit.SetFocus;
-      ControlComponentsEnabled;
+      ControlDefaultFocus;
     end;
   finally
     AConfigurationView.Free;

@@ -17,11 +17,11 @@ type
   private
     procedure EnabledComponentes;
     procedure LoadLoginInformation;
-    procedure ControlDefaultFocus;
     procedure DoOnKeyDownADPasswordButtonedEdit(_Sender: TObject; var _Key: Word; _Shift: TShiftState);
   protected
     procedure PrepareComponents; override;
     procedure PrepareEvents; override;
+    procedure ControlDefaultFocus;
   end;
 
 implementation
