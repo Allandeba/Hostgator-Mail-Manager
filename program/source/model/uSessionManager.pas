@@ -40,7 +40,7 @@ end;
 class procedure TSessionManager.PopularConfiguracaoSessionManager(_AConfigFile: TStringList);
 begin
   GetSessionInfo.Domain := _AConfigFile.Values[SYSTEM_PARAM_DOMAIN];
-  GetSessionInfo.MainAPIMail := _AConfigFile.Values[SYSTEM_PARAM_MAIN_MAIL];
+  GetSessionInfo.MainUsername := _AConfigFile.Values[SYSTEM_PARAM_MAIN_USERNAME];
 end;
 
 initialization

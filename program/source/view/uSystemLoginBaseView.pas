@@ -4,20 +4,17 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  uADPasswordButtonEdit, uADComboBox, uFrameworkView, System.Classes, Vcl.Mask;
+  uADPasswordButtonEdit, uADComboBox, uFrameworkView, System.Classes, Vcl.Mask, uBaseView;
 
 type
-  TSystemLoginBaseView = class(TFrameworkView)
+  TSystemLoginBaseView = class(TBaseView)
     ButtonLogin: TButton;
-    ADPasswordButtonedEdit: TADPasswordButtonedEdit;
     LabeledEditUsername: TLabeledEdit;
+    ADPasswordButtonedEdit: TADPasswordButtonedEdit;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure ButtonLoginClick(Sender: TObject);
   private
     procedure EnabledComponentes;
-    procedure ConfigureADButtonedPasswordEditImages;
-    procedure AddImage(_AImagePasswordButtonEditList: TImagePasswordButtonEditList; _AImageFilePath: String);
-
     procedure DoOnKeyDownADPasswordButtonedEdit(_Sender: TObject; var _Key: Word; _Shift: TShiftState);
   protected
     procedure PrepareComponents; override;
@@ -31,40 +28,9 @@ uses
 
 {$R *.dfm}
 
-procedure TSystemLoginBaseView.AddImage(_AImagePasswordButtonEditList: TImagePasswordButtonEditList; _AImageFilePath: String);
-var
-  AImagePasswordButtonEdit: TImagePasswordButtonEdit;
-begin
-  AImagePasswordButtonEdit := TImagePasswordButtonEdit.Create;
-  try
-    AImagePasswordButtonEdit.Filename := _AImageFilePath;
-    AImagePasswordButtonEdit.IsPressedImage := True;
-
-    _AImagePasswordButtonEditList.Add(AImagePasswordButtonEdit);
-  except
-    AImagePasswordButtonEdit.Free;
-    raise;
-  end;
-end;
-
 procedure TSystemLoginBaseView.ButtonLoginClick(Sender: TObject);
 begin
   raise ENotImplemented.Create('Not implemented');
-end;
-
-procedure TSystemLoginBaseView.ConfigureADButtonedPasswordEditImages;
-var
-  AImagePasswordButtonEditList: TImagePasswordButtonEditList;
-begin
-  AImagePasswordButtonEditList := TImagePasswordButtonEditList.Create;
-  try
-    AddImage(AImagePasswordButtonEditList, IMG_BUTTON_PASSWORD_1);
-    AddImage(AImagePasswordButtonEditList, IMG_BUTTON_PASSWORD_2);
-
-    ADPasswordButtonedEdit.AddImages(AImagePasswordButtonEditList);
-  finally
-    AImagePasswordButtonEditList.Free;
-  end;
 end;
 
 procedure TSystemLoginBaseView.DoOnKeyDownADPasswordButtonedEdit(_Sender: TObject; var _Key: Word; _Shift: TShiftState);
@@ -75,7 +41,7 @@ end;
 
 procedure TSystemLoginBaseView.EnabledComponentes;
 begin
-  ButtonLogin.Enabled := not LabeledEditUsername.IsEmpty;
+  ButtonLogin.Enabled := not LabeledEditUsername.Text.IsEmpty;
 end;
 
 procedure TSystemLoginBaseView.FormKeyPress(Sender: TObject; var Key: Char);
@@ -88,15 +54,15 @@ procedure TSystemLoginBaseView.PrepareComponents;
 begin
   inherited;
   ButtonLogin.ModalResult := mrNone;
-  BorderStyle := bsNone;
-  ConfigureADButtonedPasswordEditImages;
+  BorderStyle := bsDialog;
+  AddImagesToADPasswordButtonedEdit(ADPasswordButtonedEdit);
   EnabledComponentes;
 end;
 
 procedure TSystemLoginBaseView.PrepareEvents;
 begin
   inherited;
-  ADPasswordButtonedEdit.PasswordButtonedEdit.OnKeyDown := DoOnKeyDownADPasswordButtonedEdit;
+  ADPasswordButtonedEdit.OnKeyDown := DoOnKeyDownADPasswordButtonedEdit;
 end;
 
 end.

@@ -115,6 +115,14 @@
         <DCCReference Include="source\view\uHostgatorMailManagerView.pas">
             <Form>HostgatorMailManagerView</Form>
         </DCCReference>
+        <DCCReference Include="source\view\uConfigurationView.pas">
+            <Form>ConfigurationView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="source\view\uBaseView.pas">
+            <Form>BaseView</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

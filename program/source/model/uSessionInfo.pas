@@ -5,18 +5,31 @@ interface
 type
 
   TSessionInfo = class
-  strict private
+  private
     FToken: String;
     FDomain: String;
-    FPassword: String;
-    FMainAPIMail: String;
+    FMainUsername: String;
   public
+    function GetMainAPIMail: String;
+
     property Token: String read FToken write FToken;
     property Domain: String read FDomain write FDomain;
-    property Password: String read FPassword write FPassword;
-    property MainAPIMail: String read FMainAPIMail write FMainAPIMail;
+    property MainUsername: String read FMainUsername write FMainUsername;
   end;
 
 implementation
+
+uses
+  System.SysUtils;
+
+{ TSessionInfo }
+
+function TSessionInfo.GetMainAPIMail: String;
+begin
+  if FMainUsername.IsEmpty or FDomain.IsEmpty then
+    Exit(EmptyStr);
+
+  Result := Format('%s@%s', [FMainUsername, FDomain]);
+end;
 
 end.

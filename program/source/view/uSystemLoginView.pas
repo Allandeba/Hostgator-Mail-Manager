@@ -12,6 +12,10 @@ type
     procedure ImageConfigClick(Sender: TObject);
   private
     procedure ConfigureImage;
+    procedure FillLoginInformation;
+    procedure ControlComponentsEnabled;
+
+    function CanFillLoginInformation: Boolean;
   protected
     procedure PrepareComponents; override;
   end;
@@ -19,9 +23,14 @@ type
 implementation
 
 uses
-  uSystemInfo, uFrameworkMessage, uMessages;
+  uStrHelper, uSystemInfo, uFrameworkMessage, uMessages, uConfigurationView, uSessionManager;
 
 {$R *.dfm}
+
+function TSystemLoginView.CanFillLoginInformation: Boolean;
+begin
+  Result := LabeledEditUsername.Text.IsEmpty;
+end;
 
 procedure TSystemLoginView.ConfigureImage;
 var
@@ -34,9 +43,32 @@ begin
   ImageConfig.Picture.LoadFromFile(AImageFilePath);
 end;
 
-procedure TSystemLoginView.ImageConfigClick(Sender: TObject);
+procedure TSystemLoginView.ControlComponentsEnabled;
 begin
-  raise ENotImplemented.Create('Not implemented');
+  ButtonLogin.Enabled := not LabeledEditUsername.Text.IsEmpty;
+end;
+
+procedure TSystemLoginView.FillLoginInformation;
+begin
+  LabeledEditUsername.Text := TSessionManager.GetSessionInfo.GetMainAPIMail;
+end;
+
+procedure TSystemLoginView.ImageConfigClick(Sender: TObject);
+var
+  AConfigurationView: TConfigurationView;
+begin
+  AConfigurationView := TConfigurationView.Create(Self);
+  try
+    if (AConfigurationView.ShowModal = mrOk) and CanFillLoginInformation then
+    begin
+      FillLoginInformation;
+      if ADPasswordButtonedEdit.CanFocus then
+        ADPasswordButtonedEdit.SetFocus;
+      ControlComponentsEnabled;
+    end;
+  finally
+    AConfigurationView.Free;
+  end;
 end;
 
 procedure TSystemLoginView.PrepareComponents;

@@ -11,7 +11,9 @@ uses
   uSessionInfo in 'source\model\uSessionInfo.pas',
   uSystemLoginBaseView in 'source\view\uSystemLoginBaseView.pas' {SystemLoginBaseView},
   uSystemLoginView in 'source\view\uSystemLoginView.pas' {SystemLoginView},
-  uHostgatorMailManagerView in 'source\view\uHostgatorMailManagerView.pas' {HostgatorMailManagerView};
+  uHostgatorMailManagerView in 'source\view\uHostgatorMailManagerView.pas' {HostgatorMailManagerView},
+  uConfigurationView in 'source\view\uConfigurationView.pas' {ConfigurationView},
+  uBaseView in 'source\view\uBaseView.pas' {BaseView};
 
 {$R *.res}
 
