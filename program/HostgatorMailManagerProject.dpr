@@ -17,7 +17,6 @@ uses
   uConfigurationController in 'source\controller\uConfigurationController.pas',
   uConfiguration in 'source\model\uConfiguration.pas',
   uTokenManager in 'source\model\uTokenManager.pas',
-  uLogin in 'source\model\uLogin.pas',
   uLoginController in 'source\controller\uLoginController.pas';
 
 {$R *.res}

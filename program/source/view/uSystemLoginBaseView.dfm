@@ -1,12 +1,12 @@
 inherited SystemLoginBaseView: TSystemLoginBaseView
   BorderStyle = bsDialog
   Caption = 'SystemLoginBaseView'
-  ClientHeight = 124
-  ClientWidth = 246
+  ClientHeight = 131
+  ClientWidth = 250
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   ExplicitWidth = 262
-  ExplicitHeight = 163
+  ExplicitHeight = 169
   TextHeight = 15
   object ButtonLogin: TButton
     Left = 166

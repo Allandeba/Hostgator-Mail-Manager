@@ -3,7 +3,7 @@ unit uLoginController;
 interface
 
 uses
-  uLogin, System.Classes;
+  System.Classes;
 
 type
   THostgatorResultCode = (hrcFail, hrcSuccess);
@@ -13,15 +13,31 @@ type
     procedure ValidateHostgatorLoginRequest(_RequestContent: String);
     function GetRequestLogin(_LoginValidationParam: TStringList; _URL: String): String;
   public
-    procedure ValidateLogin(_Login: TLogin);
+    procedure ValidateLogin(_Password: String);
+    procedure SaveLoginInformation;
   end;
 
 implementation
 
 uses
-  uStrHelper, uConsts, uRequest, System.SysUtils, uFrameworkMessages, uMessages, uJSONUtils, idHTTP;
+  uStrHelper, uConsts, uRequest, System.SysUtils, uFrameworkMessages, uMessages, uJSONUtils, idHTTP, uSessionManager, uSystemInfo;
 
 { TLoginController }
+
+procedure TLoginController.SaveLoginInformation;
+var
+  ALoginInformationParam: TStringList;
+begin
+  ALoginInformationParam := TStringList.Create;
+  try
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_DOMAIN, TSessionManager.GetSessionInfo.Domain);
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_MAIN_USERNAME, TSessionManager.GetSessionInfo.MainUsername);
+
+    ALoginInformationParam.SaveToFile(TSystemInfo.GetFilePathCompanyConfiguration);
+  finally
+    ALoginInformationParam.Free;
+  end;
+end;
 
 procedure TLoginController.ValidateHostgatorLoginRequest(_RequestContent: String);
 const
@@ -37,17 +53,17 @@ begin
     raise Exception.Create(MSG_0004);
 end;
 
-procedure TLoginController.ValidateLogin(_Login: TLogin);
+procedure TLoginController.ValidateLogin(_Password: String);
 var
   ALoginValidationParam: TStringList;
   AURL: String;
   ARequestContent: String;
 begin
-  AURL := URL_WEBMAIL + _Login.Domain + HOSTGATOR_MAIL_ACCESS;
+  AURL := URL_WEBMAIL + TSessionManager.GetSessionInfo.Domain + HOSTGATOR_MAIL_ACCESS;
   ALoginValidationParam := TStringList.Create;
   try
-    ALoginValidationParam.Add('user=' + _Login.EmailAddress);
-    ALoginValidationParam.Add('pass=' + _Login.Password);
+    ALoginValidationParam.Add('user=' + TSessionManager.GetSessionInfo.GetMainAPIMail);
+    ALoginValidationParam.Add('pass=' + _Password);
 
     ARequestContent := GetRequestLogin(ALoginValidationParam, AURL);
     ValidateHostgatorLoginRequest(ARequestContent);

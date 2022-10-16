@@ -22,6 +22,8 @@ type
     procedure FillSessionManager;
     procedure ConfigureReloadImage;
     procedure RetrieveTokenInformation;
+
+    function CanLoadTokenFromLocalFile: Boolean;
   protected
     procedure PrepareComponents; override;
   end;
@@ -40,6 +42,11 @@ begin
   ValidateComponentRequire;
   FillSessionManager;
   ModalResult := mrOk;
+end;
+
+function TConfigurationView.CanLoadTokenFromLocalFile: Boolean;
+begin
+  Result := FileExists(TSystemInfo.GetFilePathTokenConfiguration);
 end;
 
 procedure TConfigurationView.ConfigureReloadImage;
@@ -105,10 +112,15 @@ end;
 procedure TConfigurationView.ValidateTokenInformation;
 begin
   if ADPasswordButtonedEditToken.Text.IsEmpty then
+  begin
+    if not CanLoadTokenFromLocalFile then
+      TMessageView.New(MSG_0010).ShowAndAbort;
+
     if TMessageView.New(MSG_0010).Detail('Do you want to retrieve token from localfile?').Buttons([baYesNo]).Warning.ShowResult <> mrYes then
       Abort;
 
-  RetrieveTokenInformation;
+    RetrieveTokenInformation;
+  end;
 end;
 
 end.

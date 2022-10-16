@@ -56,7 +56,7 @@ end;
 
 class function TSystemInfo.GetFilePathCompanyConfiguration: String;
 begin
-  Result := ExtractFilePath(Application.ExeName) + DOMAIN_FILE;
+  Result := ExtractFilePath(Application.ExeName) + COMPANY_FILE;
 end;
 
 class function TSystemInfo.GetFilePathRetrieveTokenInformationImage: String;

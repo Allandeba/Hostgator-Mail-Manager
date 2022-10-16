@@ -12,7 +12,7 @@ const
 
   // Default archives
   CONFIG_FILE = 'config.ini';
-  DOMAIN_FILE = 'company.ini';
+  COMPANY_FILE = 'company.ini';
 
   // Local version archive
   FILENAME_VERSION_API = 'version.json';

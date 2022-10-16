@@ -1,9 +1,9 @@
 inherited SystemLoginView: TSystemLoginView
   Caption = 'SystemLoginView'
-  ClientHeight = 132
-  ClientWidth = 252
-  ExplicitWidth = 264
-  ExplicitHeight = 170
+  ClientHeight = 130
+  ClientWidth = 244
+  ExplicitWidth = 256
+  ExplicitHeight = 168
   TextHeight = 15
   object ImageConfig: TImage [0]
     Left = 8

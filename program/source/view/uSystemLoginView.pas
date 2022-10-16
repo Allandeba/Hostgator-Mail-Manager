@@ -15,7 +15,6 @@ type
     FLoginController: TLoginController;
     procedure ConfigureImage;
     procedure FillLoginInformation;
-    procedure ValidateLogin;
 
     function GetLoginController: TLoginController;
     property LoginController: TLoginController read GetLoginController;
@@ -28,14 +27,21 @@ type
 implementation
 
 uses
-  uStrHelper, uSystemInfo, uFrameworkMessage, uMessages, uConfigurationView, uSessionManager, uLogin;
+  uStrHelper, uSystemInfo, uFrameworkMessage, uMessages, uConfigurationView, uSessionManager, uTokenManager;
 
 {$R *.dfm}
 
 procedure TSystemLoginView.ButtonLoginClick(Sender: TObject);
+var
+  APassword: String;
 begin
-  ValidateLogin;
-  raise ENotImplemented.Create('Logged in successfully');
+  APassword := ADPasswordButtonedEdit.Text;
+  LoginController.ValidateLogin(APassword);
+  TTokenManager.ProcessTokenInformation(APassword);
+  LoginController.SaveLoginInformation;
+
+  raise ENotImplemented.Create('Not implemented...');
+//  ModalResult := mrOk;
 end;
 
 procedure TSystemLoginView.ConfigureImage;
@@ -83,22 +89,6 @@ procedure TSystemLoginView.PrepareComponents;
 begin
   inherited;
   ConfigureImage;
-end;
-
-procedure TSystemLoginView.ValidateLogin;
-var
-  ALogin: TLogin;
-begin
-  ALogin := TLogin.Create;
-  try
-    ALogin.EmailAddress := LabeledEditUsername.Text.Trim;
-    ALogin.Domain := TSessionManager.GetSessionInfo.Domain;
-    ALogin.Password := ADPasswordButtonedEdit.Text;
-
-    LoginController.ValidateLogin(ALogin);
-  finally
-    ALogin.Free;
-  end;
 end;
 
 end.

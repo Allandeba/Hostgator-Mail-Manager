@@ -2,8 +2,8 @@ object BaseView: TBaseView
   Left = 0
   Top = 0
   Caption = 'BaseView'
-  ClientHeight = 441
-  ClientWidth = 624
+  ClientHeight = 438
+  ClientWidth = 612
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

@@ -77,6 +77,7 @@ procedure TSystemLoginBaseView.PrepareComponents;
 begin
   inherited;
   ButtonLogin.ModalResult := mrNone;
+  LabeledEditUsername.Enabled := False;
   AddImagesToADPasswordButtonedEdit(ADPasswordButtonedEdit);
   EnabledComponentes;
   LoadLoginInformation;

@@ -1,9 +1,9 @@
 inherited ConfigurationView: TConfigurationView
   Caption = 'ConfigurationView'
-  ClientHeight = 174
-  ClientWidth = 295
+  ClientHeight = 179
+  ClientWidth = 299
   ExplicitWidth = 311
-  ExplicitHeight = 213
+  ExplicitHeight = 217
   TextHeight = 15
   object ImageTokenInformation: TImage
     Left = 8
