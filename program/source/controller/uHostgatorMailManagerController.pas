@@ -196,22 +196,4 @@ begin
   DealWithHostgatorException(ARequest.DoRequest);
 end;
 
-//procedure TGerenciadorEmailController.TratarRetornoHostgator(_AMsgRetornoServidor: String);
-//var
-//  AGerenciadorEmailException: TGerenciadorEmailException;
-//begin
-//  AGerenciadorEmailException := TGerenciadorEmailException.Create;
-//  try
-//    AGerenciadorEmailException.ProcessarRetornoHostgator(_AMsgRetornoServidor);
-//  finally
-//    AGerenciadorEmailException.Free;
-//  end;
-//end;
-//
-//procedure TGerenciadorEmailController.ValidarListaUsuariosVazia(_AUsuarios: TArray<String>);
-//begin
-//  if Length(_AUsuarios) = 0 then
-//    TMessageView.New(MSG_0005).Error.ShowAndAbort;
-//end;
-
 end.
