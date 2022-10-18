@@ -1,13 +1,13 @@
 inherited ConfigurationView: TConfigurationView
   Caption = 'ConfigurationView'
-  ClientHeight = 179
-  ClientWidth = 299
-  ExplicitWidth = 311
-  ExplicitHeight = 217
+  ClientHeight = 277
+  ClientWidth = 300
+  ExplicitWidth = 312
+  ExplicitHeight = 315
   TextHeight = 15
   object ImageTokenInformation: TImage
-    Left = 8
-    Top = 153
+    Left = 9
+    Top = 254
     Width = 16
     Height = 16
     OnClick = ImageTokenInformationClick
@@ -17,9 +17,9 @@ inherited ConfigurationView: TConfigurationView
     Top = 72
     Width = 282
     Height = 23
-    EditLabel.Width = 103
+    EditLabel.Width = 135
     EditLabel.Height = 15
-    EditLabel.Caption = 'Main API username'
+    EditLabel.Caption = 'Main API email username'
     TabOrder = 1
     Text = ''
   end
@@ -46,12 +46,34 @@ inherited ConfigurationView: TConfigurationView
     Text = ''
   end
   object ButtonSave: TButton
-    Left = 215
-    Top = 144
+    Left = 216
+    Top = 245
     Width = 75
     Height = 25
     Caption = 'Save'
     TabOrder = 3
     OnClick = ButtonSaveClick
+  end
+  object LabeledEditHostgatorUsername: TLabeledEdit
+    Left = 8
+    Top = 160
+    Width = 283
+    Height = 23
+    EditLabel.Width = 108
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Hostgator username'
+    TabOrder = 4
+    Text = ''
+  end
+  object LabeledEditHostgatorHostIP: TLabeledEdit
+    Left = 8
+    Top = 208
+    Width = 283
+    Height = 23
+    EditLabel.Width = 109
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Hostgator hosting IP'
+    TabOrder = 5
+    Text = ''
   end
 end

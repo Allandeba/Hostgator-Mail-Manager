@@ -31,7 +31,9 @@ begin
   ALoginInformationParam := TStringList.Create;
   try
     ALoginInformationParam.AddPair(SYSTEM_PARAM_DOMAIN, TSessionManager.GetSessionInfo.Domain);
-    ALoginInformationParam.AddPair(SYSTEM_PARAM_MAIN_USERNAME, TSessionManager.GetSessionInfo.MainUsername);
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_MAIN_EMAIL_USERNAME, TSessionManager.GetSessionInfo.MainEmailUsername);
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_HOSTGATOR_USERNAME, TSessionManager.GetSessionInfo.HostgatorUsername);
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_HOSTGATOR_HOST_IP, TSessionManager.GetSessionInfo.HostgatorHostIP);
 
     ALoginInformationParam.SaveToFile(TSystemInfo.GetFilePathCompanyConfiguration);
   finally

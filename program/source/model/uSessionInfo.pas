@@ -8,13 +8,17 @@ type
   private
     FTemporaryToken: String;
     FDomain: String;
-    FMainUsername: String;
+    FMainEmailUsername: String;
+    FHostgatorUsername: String;
+    FHostgatorDNS: String;
   public
     function GetMainAPIMail: String;
 
     property Token: String read FTemporaryToken write FTemporaryToken;
     property Domain: String read FDomain write FDomain;
-    property MainUsername: String read FMainUsername write FMainUsername;
+    property MainEmailUsername: String read FMainEmailUsername write FMainEmailUsername;
+    property HostgatorUsername: String read FHostgatorUsername write FHostgatorUsername;
+    property HostgatorHostIP: String read FHostgatorDNS write FHostgatorDNS;
   end;
 
 implementation
@@ -26,10 +30,10 @@ uses
 
 function TSessionInfo.GetMainAPIMail: String;
 begin
-  if FMainUsername.IsEmpty or FDomain.IsEmpty then
+  if FMainEmailUsername.IsEmpty or FDomain.IsEmpty then
     Exit(EmptyStr);
 
-  Result := Format('%s@%s', [FMainUsername, FDomain]);
+  Result := Format('%s@%s', [FMainEmailUsername, FDomain]);
 end;
 
 end.

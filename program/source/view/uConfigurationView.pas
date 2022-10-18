@@ -13,11 +13,12 @@ type
     ADPasswordButtonedEditToken: TADPasswordButtonedEdit;
     ButtonSave: TButton;
     ImageTokenInformation: TImage;
+    LabeledEditHostgatorUsername: TLabeledEdit;
+    LabeledEditHostgatorHostIP: TLabeledEdit;
     procedure ButtonSaveClick(Sender: TObject);
     procedure ImageTokenInformationClick(Sender: TObject);
   private
     procedure ValidateComponentRequire;
-    procedure ValidateRetrievingTokenInformation;
     procedure ValidateTokenInformation;
     procedure FillSessionManager;
     procedure ConfigureReloadImage;
@@ -61,7 +62,9 @@ procedure TConfigurationView.FillSessionManager;
 begin
   TSessionManager.GetSessionInfo.Token := ADPasswordButtonedEditToken.Text.Trim;
   TSessionManager.GetSessionInfo.Domain := LabeledEditDomain.Text.Trim;
-  TSessionManager.GetSessionInfo.MainUsername := LabeledEditMainUsername.Text.Trim;
+  TSessionManager.GetSessionInfo.MainEmailUsername := LabeledEditMainUsername.Text.Trim;
+  TSessionManager.GetSessionInfo.HostgatorUsername := LabeledEditHostgatorUsername.Text.Trim;
+  TSessionManager.GetSessionInfo.HostgatorHostIP := LabeledEditHostgatorHostIP.Text.Trim;
 end;
 
 procedure TConfigurationView.ImageTokenInformationClick(Sender: TObject);
@@ -74,22 +77,19 @@ begin
   inherited;
   AddImagesToADPasswordButtonedEdit(ADPasswordButtonedEditToken);
   LabeledEditDomain.Text := TSessionManager.GetSessionInfo.Domain;
-  LabeledEditMainUsername.Text := TSessionManager.GetSessionInfo.MainUsername;
+  LabeledEditMainUsername.Text := TSessionManager.GetSessionInfo.MainEmailUsername;
+  LabeledEditHostgatorUsername.Text := TSessionManager.GetSessionInfo.HostgatorUsername;
+  LabeledEditHostgatorHostIP.Text := TSessionManager.GetSessionInfo.HostgatorHostIP;
   ConfigureReloadImage;
 end;
 
 procedure TConfigurationView.RetrieveTokenInformation;
-const
-  PASSWORD_CHAR = #9;
-var
-  APassword: String;
 begin
-  ValidateRetrievingTokenInformation;
-  APassword := InputBox('Retrieve token information', PASSWORD_CHAR + 'Please enter the main user password', '');
-  if APassword.IsEmpty then
-    Exit;
+  if not ADPasswordButtonedEditToken.Text.IsEmpty then
+    if TMessageView.New(MSG_0014).Buttons([baYesNo]).Warning.ShowResult <> mrYes then
+      Abort;
 
-  ADPasswordButtonedEditToken.Text := TTokenManager.GetToken(APassword);
+  ADPasswordButtonedEditToken.Text := inherited GetTokenInformation;
 end;
 
 procedure TConfigurationView.ValidateComponentRequire;
@@ -98,15 +98,6 @@ begin
 
   if LabeledEditDomain.Text.IsEmpty or LabeledEditMainUsername.Text.IsEmpty then
     TMessageView.New(MSG_0010).ShowAndAbort;
-end;
-
-procedure TConfigurationView.ValidateRetrievingTokenInformation;
-begin
-  if ADPasswordButtonedEditToken.Text.IsEmpty then
-    Exit;
-
-  if TMessageView.New(MSG_0014).Buttons([baYesNo]).Warning.ShowResult <> mrYes then
-    Abort;
 end;
 
 procedure TConfigurationView.ValidateTokenInformation;
@@ -119,7 +110,7 @@ begin
     if TMessageView.New(MSG_0010).Detail('Do you want to retrieve token from localfile?').Buttons([baYesNo]).Warning.ShowResult <> mrYes then
       Abort;
 
-    RetrieveTokenInformation;
+    GetTokenInformation;
   end;
 end;
 

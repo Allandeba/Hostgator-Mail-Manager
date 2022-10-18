@@ -23,7 +23,7 @@ uses
 function TConfigurationController.GetSessionManagerConfiguration: TSessionManagerConfiguration;
 var
   ACompanyConfigurationFileName: String;
-  ACompanyInformation: TStringList;
+  ACompanyInformationParam: TStringList;
 begin
   Result := nil;
   ACompanyConfigurationFileName := TSystemInfo.GetFilePathCompanyConfiguration;
@@ -32,13 +32,15 @@ begin
 
   Result := TSessionManagerConfiguration.Create;
   try
-    ACompanyInformation := TStringList.Create;
+    ACompanyInformationParam := TStringList.Create;
     try
-      ACompanyInformation.LoadFromFile(ACompanyConfigurationFileName);
-      Result.Domain := ACompanyInformation.Values[SYSTEM_PARAM_DOMAIN];
-      Result.MainUsername := ACompanyInformation.Values[SYSTEM_PARAM_MAIN_USERNAME];
+      ACompanyInformationParam.LoadFromFile(ACompanyConfigurationFileName);
+      Result.Domain := ACompanyInformationParam.Values[SYSTEM_PARAM_DOMAIN];
+      Result.MainEmailUsername := ACompanyInformationParam.Values[SYSTEM_PARAM_MAIN_EMAIL_USERNAME];
+      Result.HostgatorUsername := ACompanyInformationParam.Values[SYSTEM_PARAM_HOSTGATOR_USERNAME];
+      Result.HostgatorHostIP := ACompanyInformationParam.Values[SYSTEM_PARAM_HOSTGATOR_HOST_IP];
     finally
-      ACompanyInformation.Free;
+      ACompanyInformationParam.Free;
     end;
   except
     Result.Free;

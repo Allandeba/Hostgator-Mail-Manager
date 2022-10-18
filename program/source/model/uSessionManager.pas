@@ -40,7 +40,9 @@ end;
 class procedure TSessionManager.FillSessionManagerConfiguration(_SeessionManagerConfiguration: TSessionManagerConfiguration);
 begin
   GetSessionInfo.Domain := _SeessionManagerConfiguration.Domain;
-  GetSessionInfo.MainUsername := _SeessionManagerConfiguration.MainUsername;
+  GetSessionInfo.MainEmailUsername := _SeessionManagerConfiguration.MainEmailUsername;
+  GetSessionInfo.HostgatorUsername := _SeessionManagerConfiguration.HostgatorUsername;
+  GetSessionInfo.HostgatorHostIP := _SeessionManagerConfiguration.HostgatorHostIP;
 end;
 
 initialization
