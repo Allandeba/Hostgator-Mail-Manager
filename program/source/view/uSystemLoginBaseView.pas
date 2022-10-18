@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  uConsts, Vcl.Imaging.pngimage, uStrHelper, uSessionManager;
+  uStrHelper, uSessionManager;
 
 {$R *.dfm}
 

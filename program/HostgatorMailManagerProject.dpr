@@ -17,7 +17,12 @@ uses
   uConfigurationController in 'source\controller\uConfigurationController.pas',
   uConfiguration in 'source\model\uConfiguration.pas',
   uTokenManager in 'source\model\uTokenManager.pas',
-  uLoginController in 'source\controller\uLoginController.pas';
+  uLoginController in 'source\controller\uLoginController.pas',
+  uEnums in 'source\model\uEnums.pas',
+  uHostgatorMailManagerController in 'source\controller\uHostgatorMailManagerController.pas',
+  uHostgatorMailManager in 'source\model\uHostgatorMailManager.pas',
+  uJsonDTO in 'source\model\uJsonDTO.pas',
+  uHostgatorExceptionController in 'source\controller\uHostgatorExceptionController.pas';
 
 {$R *.res}
 

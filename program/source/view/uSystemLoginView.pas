@@ -39,9 +39,7 @@ begin
   LoginController.ValidateLogin(APassword);
   TTokenManager.ProcessTokenInformation(APassword);
   LoginController.SaveLoginInformation;
-
-  raise ENotImplemented.Create('Not implemented...');
-//  ModalResult := mrOk;
+  ModalResult := mrOk;
 end;
 
 procedure TSystemLoginView.ConfigureImage;

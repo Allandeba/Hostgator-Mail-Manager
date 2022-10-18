@@ -127,6 +127,11 @@
         <DCCReference Include="source\model\uConfiguration.pas"/>
         <DCCReference Include="source\model\uTokenManager.pas"/>
         <DCCReference Include="source\controller\uLoginController.pas"/>
+        <DCCReference Include="source\model\uEnums.pas"/>
+        <DCCReference Include="source\controller\uHostgatorMailManagerController.pas"/>
+        <DCCReference Include="source\model\uHostgatorMailManager.pas"/>
+        <DCCReference Include="source\model\uJsonDTO.pas"/>
+        <DCCReference Include="source\controller\uHostgatorExceptionController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
