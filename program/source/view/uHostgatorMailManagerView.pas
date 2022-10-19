@@ -177,6 +177,7 @@ begin
   ControlEnabledComponents;
   LoadUsernameComboBox;
   LabeledEditDomain.Text := TSessionManager.GetSessionInfo.Domain;
+  AddImagesToADPasswordButtonedEdit(ADPasswordButtonedEditPassword);
 end;
 
 procedure THostgatorMailManagerView.PrepareEvents;
@@ -191,7 +192,7 @@ procedure THostgatorMailManagerView.SendInformation;
 begin
   if TArrayUtils.ContainsValue(ADComboBoxOperation.ComboBox.ItemIndex,[Ord(oChangePassword), Ord(oDeleteEmail)]) then
   begin
-    if AnsiSameText(ADComboBoxUsername.ComboBox.Text, TSessionManager.GetSessionInfo.MainEmailUsername) then
+    if HostgatorMainManagerController.IsUserAdmin(ADComboBoxUsername.ComboBox.Text) then
     begin
       TMessageView.New(MSG_0006).Show;
       AskAdminPassword;

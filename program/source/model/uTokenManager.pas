@@ -16,6 +16,7 @@ type
     class function EncryptFile(_TokenInformationParam: TStringList; _Password: String): String;
   public
     class procedure ProcessTokenInformation(_Password: String);
+    class procedure ReplaceToken(_Password: String);
     class function GetToken(_Password: String): String;
   end;
 
@@ -98,6 +99,11 @@ begin
     SaveToken(_Password)
   else
     TSessionManager.GetSessionInfo.Token := GetToken(_Password);
+end;
+
+class procedure TTokenManager.ReplaceToken(_Password: String);
+begin
+  SaveToken(_Password);
 end;
 
 class procedure TTokenManager.SaveToken(_Password: String);

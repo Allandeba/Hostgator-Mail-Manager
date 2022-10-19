@@ -10,11 +10,13 @@ type
   private
     procedure PostRequest(_URL: String; _Params: TStringList);
     procedure DealWithHostgatorException(_HostgatorReturnedMessage: String);
+    procedure UpdateTokenPassword(_Password: String);
 
     function GetRequest(_URL: String; _Params: TStringList): String;
     function GetUsernameRequest: String;
   public
     function GetUsernameList: TArray<String>;
+    function IsUserAdmin(_Username: String): Boolean;
 
     procedure AddNewEmail(_Username, _Password: String);
     procedure ChangePassword(_Username, _Password: String);
@@ -25,7 +27,7 @@ implementation
 
 uses
   uSessionManager, uConsts, uSystemInfo, uRequest, uStrHelper, System.SysUtils, REST.Json, System.JSON, System.Generics.Collections,
-  uHostgatorExceptionController;
+  uHostgatorExceptionController, uTokenManager;
 
 { THostgatorMainManagerController }
 
@@ -68,6 +70,9 @@ begin
   finally
     AParams.Free;
   end;
+
+  if IsUserAdmin(_Username) then
+    UpdateTokenPassword(_Password);
 end;
 
 procedure THostgatorMailManagerController.DeleteEmail(_Username: String);
@@ -182,6 +187,11 @@ end;
 
 
 
+function THostgatorMailManagerController.IsUserAdmin(_Username: String): Boolean;
+begin
+  Result := AnsiSameText(_Username, TSessionManager.GetSessionInfo.MainEmailUsername)
+end;
+
 procedure THostgatorMailManagerController.PostRequest(_URL: String; _Params: TStringList);
 var
   ARequest: IRequest<String>;
@@ -194,6 +204,11 @@ begin
           .RequestType(roPost);
 
   DealWithHostgatorException(ARequest.DoRequest);
+end;
+
+procedure THostgatorMailManagerController.UpdateTokenPassword(_Password: String);
+begin
+  TTokenManager.ReplaceToken(_Password);
 end;
 
 end.
