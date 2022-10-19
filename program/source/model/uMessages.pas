@@ -15,6 +15,7 @@ const
   MSG_0004 = INVALID_OPERATION + MSG_CRLF + 'Password is invalid for the username.';
   MSG_0007 = INVALID_OPERATION + MSG_CRLF + 'You must have a valid user to delete.';
   MSG_0006 = 'Administrator required!' + MSG_CRLF + 'You must use the administrator password to modify this user.';
+  MSG_0015 = INVALID_OPERATION + MSG_CRLF + 'It is not allowed to delete the administrator user.';
   MSG_0005 = MISSING_INFORMATION + MSG_CRLF + 'There are none emails to be loaded.';
   MSG_0009 = MISSING_INFORMATION + MSG_CRLF + 'You have to configure the system before start.';
   MSG_0010 = MISSING_INFORMATION + MSG_CRLF + 'Required information.';

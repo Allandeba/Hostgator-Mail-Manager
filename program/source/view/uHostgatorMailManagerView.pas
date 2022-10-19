@@ -26,6 +26,7 @@ type
     procedure ValidateInformations;
     procedure SendInformation;
     procedure AskAdminPassword;
+    procedure ValidateAdministratorChanging;
 
     procedure DoOnKeyPressADComboBoxUsername(_Sender: TObject; var _Key: Char);
     procedure DoOnKeyPressADComboBoxOperation(_Sender: TObject; var _Key: Char);
@@ -190,14 +191,7 @@ end;
 
 procedure THostgatorMailManagerView.SendInformation;
 begin
-  if TArrayUtils.ContainsValue(ADComboBoxOperation.ComboBox.ItemIndex,[Ord(oChangePassword), Ord(oDeleteEmail)]) then
-  begin
-    if HostgatorMainManagerController.IsUserAdmin(ADComboBoxUsername.ComboBox.Text) then
-    begin
-      TMessageView.New(MSG_0006).Show;
-      AskAdminPassword;
-    end;
-  end;
+  ValidateAdministratorChanging;
 
   case ADComboBoxOperation.ComboBox.ItemIndex of
     Ord(oAddNew):
@@ -217,6 +211,21 @@ begin
   ADComboBoxOperation.ComboBox.ItemIndex := 0;
   ClearComponentes;
   ControlEnabledComponents;
+end;
+
+procedure THostgatorMailManagerView.ValidateAdministratorChanging;
+begin
+  if HostgatorMainManagerController.IsUserAdmin(ADComboBoxUsername.ComboBox.Text) then
+  begin
+    if ADComboBoxOperation.ComboBox.ItemIndex = Ord(oDeleteEmail) then
+      TMessageView.New(MSG_0015).ShowAndAbort;
+
+    if ADComboBoxOperation.ComboBox.ItemIndex = Ord(oChangePassword) then
+    begin
+      TMessageView.New(MSG_0006).Show;
+      AskAdminPassword;
+    end;
+  end;
 end;
 
 procedure THostgatorMailManagerView.ValidateInformations;
