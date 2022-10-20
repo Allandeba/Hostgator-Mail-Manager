@@ -48,7 +48,7 @@ var
   AHostgatorServerResult: Integer;
 begin
   if _RequestContent.IsEmpty then
-    raise Exception.Create(FMSG_0002 + sLineBreak + 'Nothing has returned from hostgator server!' + sLineBreak + 'TLoginController.ValidateHostgatorLoginRequest');
+    raise Exception.Create(Format(FMSG_0002, ['Nothing has returned from hostgator server!' + sLineBreak + 'TLoginController.ValidateHostgatorLoginRequest']));
 
   AHostgatorServerResult := TJSONUtils<Integer>.Parse(HOSTGATOR_RESULT_STATUS, _RequestContent, False);
   if AHostgatorServerResult <> Ord(hrcSuccess) then

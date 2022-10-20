@@ -36,7 +36,7 @@ begin
     Result := TCryptographer.New(_Cryptography).Decrypt;
   except
     on E: Exception do
-      raise Exception.Create(Format(MSG_0002, ['TTokenManager.Decrypt(' + sLineBreak + E.Message]));
+      raise Exception.Create(MSG_0004);
   end;
 end;
 
