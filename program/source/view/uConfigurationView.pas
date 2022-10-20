@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  uStrHelper, uSessionManager, uMessages, uTokenManager, uSystemInfo, uFrameworkMessage;
+  uStrHelper, uSessionManager, uMessages, uSystemInfo, uFrameworkMessage;
 
 {$R *.dfm}
 
