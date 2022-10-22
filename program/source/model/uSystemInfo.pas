@@ -25,8 +25,7 @@ type
 implementation
 
 uses
-  System.Classes, JSON, uMessages, uFrameworkMessage, uSessionManager, Vcl.Themes, Vcl.Styles,
-  uFrameworkConsts;
+  System.Classes, JSON, uMessages, uFrameworkMessage, uSessionManager, Vcl.Themes, uFrameworkConsts;
 
 { TSystemInfo }
 

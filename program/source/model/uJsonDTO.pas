@@ -42,7 +42,8 @@ type
 
 implementation
 
-uses System.Sysutils, System.JSONConsts, System.Rtti, System.DateUtils;
+uses
+  System.Sysutils, System.JSONConsts, System.Rtti, System.DateUtils;
 
 { TJsonDTO }
 

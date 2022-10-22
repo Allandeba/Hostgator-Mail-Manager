@@ -3,9 +3,8 @@ unit uHostgatorMailManagerView;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uBaseView,
-  uFrameworkView, Vcl.StdCtrls, Vcl.ExtCtrls, uADComboBox, Vcl.Mask, uHostgatorMailManagerController,
-  uEnums, uADPasswordButtonedEdit;
+  Winapi.Windows, Winapi.Messages, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uBaseView, uFrameworkView, Vcl.StdCtrls,
+  Vcl.ExtCtrls, uADComboBox, Vcl.Mask, uHostgatorMailManagerController, uEnums, uADPasswordButtonedEdit;
 
 type
   THostgatorMailManagerView = class(TBaseView)

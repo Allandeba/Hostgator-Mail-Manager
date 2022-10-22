@@ -3,7 +3,7 @@ unit uSessionManager;
 interface
 
 uses
-  uSessionInfo, System.Classes, uConfiguration;
+  uSessionInfo, uConfiguration;
 
 type
   TSessionManager = class

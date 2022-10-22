@@ -3,8 +3,8 @@ unit uSystemLoginBaseView;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  uADPasswordButtonedEdit, uADComboBox, uFrameworkView, System.Classes, Vcl.Mask, uBaseView;
+  Winapi.Windows, System.SysUtils, Vcl.Controls, Vcl.Forms, Vcl.StdCtrls, Vcl.ExtCtrls, uADPasswordButtonedEdit, uFrameworkView, System.Classes, Vcl.Mask,
+  uBaseView;
 
 type
   TSystemLoginBaseView = class(TBaseView)

@@ -20,7 +20,7 @@ type
 implementation
 
 uses
-  SysUtils, Math, Types, IOUtils, Classes, JSON, ShellAPI, Winapi.Windows, Vcl.Forms, uRequest, uConsts, uFrameworkMessage, uMessages, uSystemInfo, uJSON;
+  SysUtils, Math, Types, IOUtils, Classes, JSON, ShellAPI, Winapi.Windows, Vcl.Forms, uRequest, uConsts, uSystemInfo, uJSON;
 
 { TVersionUpdateController }
 

@@ -3,8 +3,8 @@ unit uBaseView;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameworkVIew,
-  uADPasswordButtonedEdit, Vcl.ExtCtrls, Vcl.StdCtrls, uADComboBox;
+  System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameworkVIew, uADPasswordButtonedEdit, Vcl.ExtCtrls, Vcl.StdCtrls,
+  uADComboBox;
 
 type
   TBaseView = class(TFrameworkView)
@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  uConsts, uFrameworkMessage, uMessages, uTokenManager, uSystemInfo;
+  uFrameworkMessage, uMessages, uTokenManager, uSystemInfo;
 
 {$R *.dfm}
 

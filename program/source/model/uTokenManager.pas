@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  uSystemInfo, uFrameworkConsts, uStrHelper, uConsts, uCryptographer, System.SysUtils, uMessages, uSessionManager;
+  uSystemInfo, uFrameworkConsts, uConsts, uCryptographer, System.SysUtils, uMessages, uSessionManager;
 
 { TTokenManager }
 
