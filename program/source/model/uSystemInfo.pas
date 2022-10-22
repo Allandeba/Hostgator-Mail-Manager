@@ -7,10 +7,16 @@ uses
 
 type
   TSystemInfo = class(TFrameworkSysInfo)
+  private
+    class function IsBlackTheme: Boolean;
+    class function GetDefaultImageFolder: String;
   public
     class function GetFilePathCompanyConfiguration: String;
     class function GetFilePathTokenConfiguration: String;
     class function GetFilePathRetrieveTokenInformationImage: String;
+    class function GetFilePathConfigImage: String;
+    class function GetFilePathPassword1Image: String;
+    class function GetFilePathPassword2Image: String;
     class function GetClientVersion<T>: T;
     class function GetAuthorizationToken: String;
     class function GetURLHostgator: String;
@@ -19,7 +25,8 @@ type
 implementation
 
 uses
-  System.Classes, JSON, uMessages, uFrameworkMessage, uSessionManager;
+  System.Classes, JSON, uMessages, uFrameworkMessage, uSessionManager, Vcl.Themes, Vcl.Styles,
+  uFrameworkConsts;
 
 { TSystemInfo }
 
@@ -50,6 +57,14 @@ begin
   end;
 end;
 
+class function TSystemInfo.GetDefaultImageFolder: String;
+begin
+  if IsBlackTheme then
+    Result := ExtractFilePath(Application.ExeName) + IMG_FOLDER + IMG_BLACK_FOLDER
+  else
+    Result := ExtractFilePath(Application.ExeName) + IMG_FOLDER + IMG_WHITE_FOLDER;
+end;
+
 class function TSystemInfo.GetFilePathTokenConfiguration: String;
 begin
   Result := ExtractFilePath(Application.ExeName) + CONFIG_FILE;
@@ -60,14 +75,38 @@ begin
   Result := Format('https://%s:2083/cpsess5235788348/execute/Email/', [TSessionManager.GetSessionInfo.HostgatorHostIP]);
 end;
 
+class function TSystemInfo.IsBlackTheme: Boolean;
+begin
+  Result := TStyleManager.ActiveStyle.Name = SYSTEM_THEME;
+end;
+
 class function TSystemInfo.GetFilePathCompanyConfiguration: String;
 begin
   Result := ExtractFilePath(Application.ExeName) + COMPANY_FILE;
 end;
 
+class function TSystemInfo.GetFilePathConfigImage: String;
+begin
+  Result := GetDefaultImageFolder;
+  Result := Result + IMG_SETTINGS;
+end;
+
+class function TSystemInfo.GetFilePathPassword1Image: String;
+begin
+  Result := GetDefaultImageFolder;
+  Result := Result + IMG_BUTTON_PASSWORD_1;
+end;
+
+class function TSystemInfo.GetFilePathPassword2Image: String;
+begin
+  Result := GetDefaultImageFolder;
+  Result := Result + IMG_BUTTON_PASSWORD_2;
+end;
+
 class function TSystemInfo.GetFilePathRetrieveTokenInformationImage: String;
 begin
-  Result := ExtractFilePath(Application.ExeName) + IMG_RETRIEVE_TOKEN_INFORMATION;
+  Result := GetDefaultImageFolder;
+  Result := Result + IMG_RETRIEVE_TOKEN_INFORMATION;
 end;
 
 end.

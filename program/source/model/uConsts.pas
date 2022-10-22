@@ -39,9 +39,13 @@ const
   // Error result when it is all ok between data from hostgator.
   HOSTGATOR_RETURN_MAIL_MESSAGE_OK = 'This is a message.';
 
-  IMG_BUTTON_PASSWORD_1 = IMG_FOLDER + 'closed_eye.png';
-  IMG_BUTTON_PASSWORD_2 = IMG_FOLDER + 'opened_eye.png';
-  IMG_RETRIEVE_TOKEN_INFORMATION = IMG_FOLDER + 'sync-configuration.png';
+  // Images
+  IMG_BLACK_FOLDER = 'black_theme/';
+  IMG_WHITE_FOLDER = 'white_theme/';
+  IMG_BUTTON_PASSWORD_1 = 'closed_eye.png';
+  IMG_BUTTON_PASSWORD_2 = 'opened_eye.png';
+  IMG_RETRIEVE_TOKEN_INFORMATION = 'sync-configuration.png';
+  IMG_SETTINGS = 'settings.png';
 
   // GitHub configuration
   GITHUB_OWNER_USERNAME = 'Allandeba';

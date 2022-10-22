@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  uConsts, uFrameworkMessage, uMessages, uTokenManager;
+  uConsts, uFrameworkMessage, uMessages, uTokenManager, uSystemInfo;
 
 {$R *.dfm}
 
@@ -51,8 +51,8 @@ var
 begin
   AImagePasswordButtonEditList := TImagePasswordButtonEditList.Create;
   try
-    AddImage(AImagePasswordButtonEditList, IMG_BUTTON_PASSWORD_1);
-    AddImage(AImagePasswordButtonEditList, IMG_BUTTON_PASSWORD_2);
+    AddImage(AImagePasswordButtonEditList, TSystemInfo.GetFilePathPassword1Image);
+    AddImage(AImagePasswordButtonEditList, TSystemInfo.GetFilePathPassword2Image);
 
     _ADPasswordButtonedEdit.AddImages(AImagePasswordButtonEditList);
   finally

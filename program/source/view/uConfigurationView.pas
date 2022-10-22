@@ -55,6 +55,7 @@ begin
   ImageTokenInformation.Width := 16;
   ImageTokenInformation.Height := 16;
   ImageTokenInformation.Hint := 'Retrieve token information';
+  ImageTokenInformation.ShowHint := True;
   AddImageToImageComponent(ImageTokenInformation, TSystemInfo.GetFilePathRetrieveTokenInformationImage);
 end;
 

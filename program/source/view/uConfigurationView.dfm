@@ -7,7 +7,7 @@ inherited ConfigurationView: TConfigurationView
   TextHeight = 15
   object ImageTokenInformation: TImage
     Left = 9
-    Top = 254
+    Top = 249
     Width = 16
     Height = 16
     OnClick = ImageTokenInformationClick
@@ -42,6 +42,7 @@ inherited ConfigurationView: TConfigurationView
     LabelCaption = 'Token'
     Text = ''
     TabOrder = 0
+    BevelOuter = bvNone
   end
   object ButtonSave: TButton
     Left = 216
