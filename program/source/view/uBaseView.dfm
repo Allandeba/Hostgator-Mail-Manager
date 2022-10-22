@@ -1,7 +1,6 @@
 object BaseView: TBaseView
   Left = 0
   Top = 0
-  Caption = 'BaseView'
   ClientHeight = 424
   ClientWidth = 556
   Color = clBtnFace

@@ -1,6 +1,6 @@
 inherited SystemLoginBaseView: TSystemLoginBaseView
   BorderStyle = bsDialog
-  Caption = 'SystemLoginBaseView'
+  Caption = 'Login'
   ClientHeight = 130
   ClientWidth = 246
   OnKeyPress = FormKeyPress

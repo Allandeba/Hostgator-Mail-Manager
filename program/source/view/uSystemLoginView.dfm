@@ -1,5 +1,5 @@
 inherited SystemLoginView: TSystemLoginView
-  Caption = 'SystemLoginView'
+  Caption = 'Login'
   ClientHeight = 130
   ClientWidth = 244
   ExplicitWidth = 256

@@ -1,7 +1,7 @@
 object HostgatorMailManagerView: THostgatorMailManagerView
   Left = 0
   Top = 0
-  Caption = 'HostgatorMailManagerView'
+  Caption = 'Manager'
   ClientHeight = 99
   ClientWidth = 246
   Color = clBtnFace

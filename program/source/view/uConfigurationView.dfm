@@ -1,5 +1,5 @@
 inherited ConfigurationView: TConfigurationView
-  Caption = 'ConfigurationView'
+  Caption = 'Configuration'
   ClientHeight = 276
   ClientWidth = 296
   ExplicitWidth = 308
