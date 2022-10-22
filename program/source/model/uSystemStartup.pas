@@ -49,10 +49,10 @@ begin
   ReportMemoryLeaksOnShutdown := True;
   {$ENDIF}
 
+  LoadTheme;
   {$IFDEF RELEASE}
   CheckVersion;
   {$ENDIF}
-  LoadTheme;
   LoadSessionInformation;
 
   if ShowSystemLogin = mrOk then
