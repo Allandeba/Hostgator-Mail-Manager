@@ -10,6 +10,7 @@ type
   private
     class procedure CheckVersion;
     class procedure LoadSessionInformation;
+    class procedure LoadTheme;
   {$HINTS OFF}
     class function ShowSystemLogin: TModalResult;
   {$HINTS ON}
@@ -21,7 +22,8 @@ type
 implementation
 
 uses
-  Vcl.Forms, uHostgatorMailManagerView, uSystemLoginView, uVersionUpdateController, uFrameworkMessage, uMessages, uConfigurationController;
+  Vcl.Forms, uHostgatorMailManagerView, uSystemLoginView, uVersionUpdateController, uFrameworkMessage, uMessages, uConfigurationController,
+  System.SysUtils, Vcl.Themes, Vcl.Styles, uConsts;
 
 { TSystemStartup }
 
@@ -50,6 +52,7 @@ begin
   {$IFDEF RELEASE}
   CheckVersion;
   {$ENDIF}
+  LoadTheme;
   LoadSessionInformation;
 
   if ShowSystemLogin = mrOk then
@@ -66,6 +69,12 @@ begin
   finally
     AConfigurationController.Free;
   end;
+end;
+
+class procedure TSystemStartup.LoadTheme;
+begin
+  Application.Title := SYSTEM_NAME;
+  TStyleManager.TrySetStyle(SYSTEM_THEME);
 end;
 
 class function TSystemStartup.ShowSystemLogin: TModalResult;

@@ -8,6 +8,7 @@ uses
 const
   // System information
   SYSTEM_NAME = 'Hostgator Mail Manager';
+  SYSTEM_THEME = 'Glow';
   SYSTEM_EXTENSION = '.exe';
 
   // Default archives
