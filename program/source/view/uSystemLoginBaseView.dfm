@@ -1,8 +1,8 @@
 inherited SystemLoginBaseView: TSystemLoginBaseView
   BorderStyle = bsDialog
   Caption = 'SystemLoginBaseView'
-  ClientHeight = 131
-  ClientWidth = 250
+  ClientHeight = 130
+  ClientWidth = 246
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   ExplicitWidth = 262
@@ -33,10 +33,6 @@ inherited SystemLoginBaseView: TSystemLoginBaseView
     Top = 51
     Width = 233
     Height = 40
-    BevelOuter = bvNone
-    ShowCaption = False
-    TabOrder = 1
     LabelCaption = 'Password'
-    Text = ''
   end
 end

@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameworkVIew,
-  uADPasswordButtonedEdit, Vcl.ExtCtrls, Vcl.StdCtrls;
+  uADPasswordButtonedEdit, Vcl.ExtCtrls, Vcl.StdCtrls, uADComboBox;
 
 type
   TBaseView = class(TFrameworkView)
@@ -15,6 +15,7 @@ type
     procedure AddImageToImageComponent(_Image: TImage; _ImageFilePath: String);
     procedure PrepareComponents; override;
     procedure AddNamesValues(_ComboBox: TComboBox; _EnumValues: array of String; _ASetFirstValue: Boolean); overload;
+    procedure AddNamesValues(_ADComboBox: TADComboBox; _EnumValues: array of String; _ASetFirstValue: Boolean); overload;
 
     function GetTokenInformation: String; virtual;
   end;
@@ -65,6 +66,11 @@ begin
     TMessageView.New(MSG_0012).Detail(Format('%s\nTSystemLoginView.ConfigureImage', [_ImageFilePath])).ShowAndAbort;
 
   _Image.Picture.LoadFromFile(_ImageFilePath);
+end;
+
+procedure TBaseView.AddNamesValues(_ADComboBox: TADComboBox; _EnumValues: array of String; _ASetFirstValue: Boolean);
+begin
+  AddNamesValues(_ADComboBox.ComboBox, _EnumValues, _ASetFirstValue);
 end;
 
 procedure TBaseView.AddNamesValues(_ComboBox: TComboBox; _EnumValues: array of String; _ASetFirstValue: Boolean);

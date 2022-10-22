@@ -2,8 +2,8 @@ object HostgatorMailManagerView: THostgatorMailManagerView
   Left = 0
   Top = 0
   Caption = 'HostgatorMailManagerView'
-  ClientHeight = 191
-  ClientWidth = 258
+  ClientHeight = 99
+  ClientWidth = 246
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,50 +11,60 @@ object HostgatorMailManagerView: THostgatorMailManagerView
   Font.Name = 'Segoe UI'
   Font.Style = []
   TextHeight = 15
-  object ADComboBoxOperation: TADComboBox
-    Left = 8
-    Top = 8
-    Width = 239
-    Height = 45
-    LabelCaption = 'Operation'
-  end
-  object ADComboBoxUsername: TADComboBox
-    Left = 8
-    Top = 59
-    Width = 112
-    Height = 45
-    LabelCaption = 'Username'
-  end
-  object ButtonSend: TButton
-    Left = 172
-    Top = 156
-    Width = 75
-    Height = 25
-    Caption = 'Send'
-    TabOrder = 2
-    OnClick = ButtonSendClick
-  end
-  object LabeledEditDomain: TLabeledEdit
-    Left = 126
-    Top = 81
-    Width = 121
-    Height = 23
-    EditLabel.Width = 42
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Domain'
-    TabOrder = 3
-    Text = ''
-  end
-  object ADPasswordButtonedEditPassword: TADPasswordButtonedEdit
-    Left = 8
-    Top = 110
-    Width = 239
-    Height = 40
+  object FlowPanelButtons: TFlowPanel
+    Left = 0
+    Top = 69
+    Width = 246
+    Height = 30
+    Align = alBottom
     BevelOuter = bvNone
-    Caption = 'ADPasswordButtonedEditPassword'
+    Caption = 'FlowPanelButtons'
+    FlowStyle = fsRightLeftBottomTop
     ShowCaption = False
-    TabOrder = 4
-    LabelCaption = 'Password'
-    Text = ''
+    TabOrder = 1
+    VerticalAlignment = taAlignBottom
+    ExplicitTop = 68
+    ExplicitWidth = 242
+    object ButtonSend: TButton
+      AlignWithMargins = True
+      Left = 166
+      Top = 0
+      Width = 75
+      Height = 25
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Caption = 'Send'
+      TabOrder = 0
+      OnClick = ButtonSendClick
+    end
+  end
+  object FlowPanelOperation: TFlowPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 240
+    Height = 59
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'FlowPanelOperation'
+    FlowStyle = fsRightLeftBottomTop
+    ShowCaption = False
+    TabOrder = 0
+    VerticalAlignment = taAlignBottom
+    ExplicitWidth = 236
+    object ADComboBoxOperation: TADComboBox
+      AlignWithMargins = True
+      Left = 8
+      Top = 0
+      Width = 229
+      Height = 56
+      LabelCaption = 'Operation'
+      Text = ''
+      ItemIndex = -1
+      TabOrder = 0
+      BevelOuter = bvNone
+    end
   end
 end
