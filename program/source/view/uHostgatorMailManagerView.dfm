@@ -2,19 +2,22 @@ object HostgatorMailManagerView: THostgatorMailManagerView
   Left = 0
   Top = 0
   Caption = 'Manager'
-  ClientHeight = 99
-  ClientWidth = 246
+  ClientHeight = 75
+  ClientWidth = 243
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OldCreateOrder = True
+  PixelsPerInch = 96
   TextHeight = 15
   object FlowPanelButtons: TFlowPanel
-    Left = 0
-    Top = 69
-    Width = 246
+    AlignWithMargins = True
+    Left = 3
+    Top = 42
+    Width = 237
     Height = 30
     Align = alBottom
     BevelOuter = bvNone
@@ -23,18 +26,12 @@ object HostgatorMailManagerView: THostgatorMailManagerView
     ShowCaption = False
     TabOrder = 1
     VerticalAlignment = taAlignBottom
-    ExplicitTop = 68
-    ExplicitWidth = 242
     object ButtonSend: TButton
       AlignWithMargins = True
-      Left = 166
-      Top = 0
+      Left = 159
+      Top = 2
       Width = 75
       Height = 25
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Send'
       TabOrder = 0
       OnClick = ButtonSendClick
@@ -44,8 +41,8 @@ object HostgatorMailManagerView: THostgatorMailManagerView
     AlignWithMargins = True
     Left = 3
     Top = 3
-    Width = 240
-    Height = 59
+    Width = 237
+    Height = 40
     Align = alTop
     BevelOuter = bvNone
     Caption = 'FlowPanelOperation'
@@ -53,13 +50,12 @@ object HostgatorMailManagerView: THostgatorMailManagerView
     ShowCaption = False
     TabOrder = 0
     VerticalAlignment = taAlignBottom
-    ExplicitWidth = 236
     object ADComboBoxOperation: TADComboBox
       AlignWithMargins = True
-      Left = 8
-      Top = 0
+      Left = 5
+      Top = -3
       Width = 229
-      Height = 56
+      Height = 40
       LabelCaption = 'Operation'
       Text = ''
       ItemIndex = -1

@@ -3,7 +3,7 @@ unit uBaseView;
 interface
 
 uses
-  System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameworkVIew, uADPasswordButtonedEdit, Vcl.ExtCtrls, Vcl.StdCtrls,
+  System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameworkView, uADPasswordButtonedEdit, Vcl.ExtCtrls, Vcl.StdCtrls,
   uADComboBox;
 
 type
@@ -14,7 +14,7 @@ type
     procedure AddImagesToADPasswordButtonedEdit(_ADPasswordButtonedEdit: TADPasswordButtonedEdit);
     procedure AddImageToImageComponent(_Image: TImage; _ImageFilePath: String);
     procedure PrepareComponents; override;
-    procedure AddNamesValues(_ComboBox: TComboBox; _EnumValues: array of String; _ASetFirstValue: Boolean); overload;
+    procedure AddNamesValues(_Strings: TStrings; _EnumValues: array of String); overload;
     procedure AddNamesValues(_ADComboBox: TADComboBox; _EnumValues: array of String; _ASetFirstValue: Boolean); overload;
 
     function GetTokenInformation: String; virtual;
@@ -70,10 +70,12 @@ end;
 
 procedure TBaseView.AddNamesValues(_ADComboBox: TADComboBox; _EnumValues: array of String; _ASetFirstValue: Boolean);
 begin
-  AddNamesValues(_ADComboBox.ComboBox, _EnumValues, _ASetFirstValue);
+  AddNamesValues(_ADComboBox.Items, _EnumValues);
+  if _ASetFirstValue then
+    _ADComboBox.ItemIndex := 0;
 end;
 
-procedure TBaseView.AddNamesValues(_ComboBox: TComboBox; _EnumValues: array of String; _ASetFirstValue: Boolean);
+procedure TBaseView.AddNamesValues(_Strings: TStrings; _EnumValues: array of String);
 var
   I: Integer;
   AEnumValuesSize: Integer;
@@ -84,8 +86,7 @@ begin
   for I := 0 to AEnumValuesSize - 1 do
     AEnumValuesArray[I] := _EnumValues[I];
 
-  inherited AddNamesValues(_ComboBox.Items, AEnumValuesArray);
-  _ComboBox.ItemIndex := 0;
+  inherited AddNamesValues(_Strings, AEnumValuesArray);
 end;
 
 procedure TBaseView.PrepareComponents;

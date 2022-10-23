@@ -8,22 +8,20 @@ uses
 type
   TTokenManager = class
   private
-    class function HadTokenUpdate: Boolean;
-    class procedure SaveToken(_Password: String);
+    class procedure SaveToken(_Password: String; _Token: String);
 
     class function DecryptFile(_TokenInformationParam: TStringList; _Password: String): String;
     class function Decrypt(_Cryptography: TCryptography): String;
     class function EncryptFile(_TokenInformationParam: TStringList; _Password: String): String;
   public
-    class procedure ProcessTokenInformation(_Password: String);
-    class procedure ReplaceToken(_Password: String);
+    class procedure ReplaceToken(_Password: String; _Token: String);
     class function GetToken(_Password: String): String;
   end;
 
 implementation
 
 uses
-  uSystemInfo, uFrameworkConsts, uConsts, uCryptographer, System.SysUtils, uMessages, uSessionManager;
+  uSystemInfo, uFrameworkConsts, uConsts, uCryptographer, System.SysUtils, uMessages;
 
 { TTokenManager }
 
@@ -77,6 +75,9 @@ var
 begin
   ATokenInformation := TStringList.Create;
   try
+    if not FileExists(TSystemInfo.GetFilePathTokenConfiguration) then
+      Exit(EmptyStr);
+
     ATokenInformation.LoadFromFile(TSystemInfo.GetFilePathTokenConfiguration);
     ATokenDecrypted := DecryptFile(ATokenInformation, _Password);
 
@@ -88,32 +89,19 @@ begin
   end;
 end;
 
-class function TTokenManager.HadTokenUpdate: Boolean;
+class procedure TTokenManager.ReplaceToken(_Password: String; _Token: String);
 begin
-  Result := not TSessionManager.GetSessionInfo.Token.IsEmpty;
+  SaveToken(_Password, _Token);
 end;
 
-class procedure TTokenManager.ProcessTokenInformation(_Password: String);
-begin
-  if HadTokenUpdate then
-    SaveToken(_Password)
-  else
-    TSessionManager.GetSessionInfo.Token := GetToken(_Password);
-end;
-
-class procedure TTokenManager.ReplaceToken(_Password: String);
-begin
-  SaveToken(_Password);
-end;
-
-class procedure TTokenManager.SaveToken(_Password: String);
+class procedure TTokenManager.SaveToken(_Password: String; _Token: String);
 var
   ATokenInformationParam: TStringList;
   AEncryptedToken: String;
 begin
   ATokenInformationParam := TStringList.Create;
   try
-    ATokenInformationParam.AddPair(TOKEN_PARAM, TSessionManager.GetSessionInfo.Token);
+    ATokenInformationParam.AddPair(TOKEN_PARAM, _Token);
 
     AEncryptedToken := EncryptFile(ATokenInformationParam, _Password);
 

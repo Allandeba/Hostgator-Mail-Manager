@@ -2,11 +2,12 @@ inherited SystemLoginBaseView: TSystemLoginBaseView
   BorderStyle = bsDialog
   Caption = 'Login'
   ClientHeight = 130
-  ClientWidth = 246
+  ClientWidth = 251
   OnKeyPress = FormKeyPress
   OnShow = FormShow
-  ExplicitWidth = 262
-  ExplicitHeight = 169
+  ExplicitWidth = 257
+  ExplicitHeight = 159
+  PixelsPerInch = 96
   TextHeight = 15
   object ButtonLogin: TButton
     Left = 166
@@ -26,7 +27,6 @@ inherited SystemLoginBaseView: TSystemLoginBaseView
     EditLabel.Height = 15
     EditLabel.Caption = 'Username'
     TabOrder = 0
-    Text = ''
   end
   object ADPasswordButtonedEdit: TADPasswordButtonedEdit
     Left = 8
@@ -34,5 +34,8 @@ inherited SystemLoginBaseView: TSystemLoginBaseView
     Width = 233
     Height = 40
     LabelCaption = 'Password'
+    Text = ''
+    TabOrder = 1
+    BevelOuter = bvNone
   end
 end

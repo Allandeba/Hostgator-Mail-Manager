@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uSystemLoginBaseView,
-  uADPasswordButtonedEdit, Vcl.ExtCtrls, uADComboBox, Vcl.StdCtrls, Vcl.Mask, uLoginController;
+  uADPasswordButtonedEdit, Vcl.ExtCtrls, uADComboBox, Vcl.StdCtrls, Vcl.Mask, uLoginController, uLogin, VCLTee.TeeProcs, uADCustomPanelNoCaption;
 
 type
   TSystemLoginView = class(TSystemLoginBaseView)
@@ -15,7 +15,9 @@ type
     FLoginController: TLoginController;
     procedure ConfigureImage;
     procedure FillLoginInformation;
+    procedure LoadToken(_Password: String);
 
+    function GetLoginInformation: TLogin;
     function GetLoginController: TLoginController;
     property LoginController: TLoginController read GetLoginController;
   protected
@@ -33,12 +35,17 @@ uses
 
 procedure TSystemLoginView.ButtonLoginClick(Sender: TObject);
 var
-  APassword: String;
+  ALogin: TLogin;
 begin
-  APassword := ADPasswordButtonedEdit.Text;
-  LoginController.ValidateLogin(APassword);
-  TTokenManager.ProcessTokenInformation(APassword);
-  LoginController.SaveLoginInformation;
+  ALogin := GetLoginInformation;
+  try
+    LoginController.ValidateLogin(ALogin);
+    LoginController.SaveLoginInformation(ALogin);
+    LoadToken(ALogin.Password);
+  finally
+    ALogin.Free;
+  end;
+
   ModalResult := mrOk;
 end;
 
@@ -67,6 +74,23 @@ begin
   Result := FLoginController;
 end;
 
+function TSystemLoginView.GetLoginInformation: TLogin;
+begin
+  Result := TLogin.Create;
+  try
+    Result.MainEmailAPI :=  TSessionManager.GetSessionInfo.GetMainAPIMail;
+    Result.MainAPIUsername := TSessionManager.GetSessionInfo.MainEmailUsername;
+    Result.HostgatorUsername := TSessionManager.GetSessionInfo.HostgatorUsername;
+    Result.Domain := TSessionManager.GetSessionInfo.Domain;
+    Result.HostgatorHostIP := TSessionManager.GetSessionInfo.HostgatorHostIP;
+    Result.Password := ADPasswordButtonedEdit.Text;
+    Result.Token := TSessionManager.GetSessionInfo.Token;
+  except
+    Result.Free;
+    raise;
+  end;
+end;
+
 procedure TSystemLoginView.ImageConfigClick(Sender: TObject);
 var
   AConfigurationView: TConfigurationView;
@@ -81,6 +105,14 @@ begin
   finally
     AConfigurationView.Free;
   end;
+end;
+
+procedure TSystemLoginView.LoadToken(_Password: String);
+begin
+  if not TSessionManager.GetSessionInfo.Token.IsEmpty then
+    TTokenManager.ReplaceToken(_Password, TSessionManager.GetSessionInfo.Token)
+  else
+    TSessionManager.GetSessionInfo.Token := TTokenManager.GetToken(_Password);
 end;
 
 procedure TSystemLoginView.PrepareComponents;

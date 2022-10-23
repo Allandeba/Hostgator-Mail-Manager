@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, System.SysUtils, Vcl.Controls, Vcl.Forms, Vcl.StdCtrls, Vcl.ExtCtrls, uADPasswordButtonedEdit, uFrameworkView, System.Classes, Vcl.Mask,
-  uBaseView;
+  uBaseView, VCLTee.TeeProcs, uADCustomPanelNoCaption;
 
 type
   TSystemLoginBaseView = class(TBaseView)

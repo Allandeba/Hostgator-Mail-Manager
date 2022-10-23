@@ -22,8 +22,8 @@ type
 implementation
 
 uses
-  Vcl.Forms, uHostgatorMailManagerView, uSystemLoginView, uVersionUpdateController, uFrameworkMessage, uMessages, uConfigurationController,
-  System.SysUtils, Vcl.Themes, Vcl.Styles, uConsts;
+  Vcl.Forms, uHostgatorMailManagerView, uSystemLoginView, uVersionUpdateController, uFrameworkMessage, uMessages, uConfigurationController, System.SysUtils, Vcl.Themes,
+  Vcl.Styles, uConsts, Vcl.StdCtrls;
 
 { TSystemStartup }
 

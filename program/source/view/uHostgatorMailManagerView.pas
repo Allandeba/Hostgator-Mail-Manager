@@ -4,20 +4,21 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uBaseView, uFrameworkView, Vcl.StdCtrls,
-  Vcl.ExtCtrls, uADComboBox, Vcl.Mask, uHostgatorMailManagerController, uEnums, uADPasswordButtonedEdit;
+  Vcl.ExtCtrls, uADComboBox, Vcl.Mask, uHostgatorMailManagerController, uEnums, uADPasswordButtonedEdit, uHostgatorMailManager, VCLTee.TeeProcs, uADCustomPanelNoCaption,
+  uADLabeledEdit, Vcl.Buttons;
 
 type
   THostgatorMailManagerView = class(TBaseView)
     FlowPanelButtons: TFlowPanel;
-    ButtonSend: TButton;
     FlowPanelOperation: TFlowPanel;
     ADComboBoxOperation: TADComboBox;
+    ButtonSend: TButton;
     procedure ButtonSendClick(Sender: TObject);
   private
     FFlowPanelComponents: TFlowPanel;
     FADComboBoxUsername: TADComboBox;
-    FLabeledEditDomain: TLabeledEdit;
-    FLabeledEditUsername: TLabeledEdit;
+    FADLabeledEditDomain: TADLabeledEdit;
+    FADLabeledEditUsername: TADLabeledEdit;
     FADPasswordButtonedEdit: TADPasswordButtonedEdit;
     FHostgatorMailManagerController: THostgatorMailManagerController;
     FUsers: TArray<String>;
@@ -29,7 +30,7 @@ type
     procedure AskAdminPassword;
     procedure ValidateAdministratorChanging;
     procedure ClearComponents;
-    procedure CreateFlowPanel;
+    procedure CreateFlowPanelComponents;
     procedure CreateComponentAddNewEmail;
     procedure CreateComponentChangePassword;
     procedure CreateComponentDeleteEmail;
@@ -39,6 +40,7 @@ type
     procedure CreatePassword;
     procedure ResizeScreen(_Operation: TOperation);
     procedure ControlButtonSend(_Operation: TOperation);
+    procedure ResetOperation;
 
     procedure DoOnKeyPressADComboBoxUsername(_Sender: TObject; var _Key: Char);
     procedure DoOnKeyPressADComboBoxOperation(_Sender: TObject; var _Key: Char);
@@ -54,6 +56,8 @@ type
     function IsUserValid: Boolean;
     function IsPasswordValid: Boolean;
     function GetUsername: String;
+    function GetPassword: String;
+    function GetHostgatorMailManager: THostgatorMailManager;
 
     property HostgatorMainManagerController: THostgatorMailManagerController read GetHostgatorMainManagerController;
     property Users: TArray<String> read GetUsers;
@@ -67,7 +71,6 @@ type
 const
   COMPONENT_TOP = 5;
   COMPONENT_LEFT = 20;
-  COMPONENT_HEIGHT = 23;
   COMPONENT_WIDTH = 108;
   COMPONENT_PADDING = 5;
   COMPONENT_ANCHORS = [];
@@ -109,9 +112,9 @@ end;
 procedure THostgatorMailManagerView.ClearComponents;
 begin
   FreeAndNil(FADComboBoxUsername);
-  FreeAndNil(FLabeledEditUsername);
+  FreeAndNil(FADLabeledEditUsername);
   FreeAndNil(FADPasswordButtonedEdit);
-  FreeAndNil(FLabeledEditDomain);
+  FreeAndNil(FADLabeledEditDomain);
   FreeAndNil(FFLowPanelComponents);
 end;
 
@@ -126,9 +129,8 @@ begin
   FADComboBoxUsername.Parent := FFlowPanelComponents;
   FADComboBoxUsername.AlignWithMargins := True;
   FADComboBoxUsername.Left := COMPONENT_LEFT;
-  FADComboBoxUsername.Top := 0;
+  FADComboBoxUsername.Top := COMPONENT_TOP;
   FADComboBoxUsername.Width := COMPONENT_WIDTH;
-  FADComboBoxUsername.Height := 43;
   FADComboBoxUsername.Anchors := COMPONENT_ANCHORS;
   FADComboBoxUsername.BevelOuter := bvNone;
   FADComboBoxUsername.TabOrder := 1;
@@ -141,7 +143,7 @@ end;
 procedure THostgatorMailManagerView.CreateComponentAddNewEmail;
 begin
   ClearComponents;
-  CreateFlowPanel;
+  CreateFlowPanelComponents;
   CreateUsername;
   CreateDomain;
   CreatePassword;
@@ -150,7 +152,7 @@ end;
 procedure THostgatorMailManagerView.CreateComponentChangePassword;
 begin
   ClearComponents;
-  CreateFlowPanel;
+  CreateFlowPanelComponents;
   CreateComboBoxUsername;
   CreateDomain;
   CreatePassword;
@@ -159,31 +161,27 @@ end;
 procedure THostgatorMailManagerView.CreateComponentDeleteEmail;
 begin
   ClearComponents;
-  CreateFlowPanel;
+  CreateFlowPanelComponents;
   CreateComboBoxUsername;
   CreateDomain;
 end;
 
 procedure THostgatorMailManagerView.CreateDomain;
 begin
-  FLabeledEditDomain := TLabeledEdit.Create(Self);
-  FLabeledEditDomain.Parent := FFlowPanelComponents;
-  FLabeledEditDomain.AlignWithMargins := True;
-  FLabeledEditDomain.Left := GetDomainLeft;
-  FLabeledEditDomain.Top := COMPONENT_TOP;
-  FLabeledEditDomain.Width := COMPONENT_WIDTH;
-  FLabeledEditDomain.Height := COMPONENT_HEIGHT;
-  FLabeledEditDomain.Anchors := COMPONENT_ANCHORS;
-  FLabeledEditDomain.AutoSize := False;
-  FLabeledEditDomain.EditLabel.Width := Trunc(FLabeledEditDomain.Width / 2);
-  FLabeledEditDomain.EditLabel.Height := 15;
-  FLabeledEditDomain.TabOrder := 2;
-  FLabeledEditDomain.Text := TSessionManager.GetSessionInfo.Domain;
-  FLabeledEditDomain.EditLabel.Caption := 'Domain';
-  FLabeledEditDomain.Enabled := False;
+  FADLabeledEditDomain := TADLabeledEdit.Create(Self);
+  FADLabeledEditDomain.Parent := FFlowPanelComponents;
+  FADLabeledEditDomain.AlignWithMargins := True;
+  FADLabeledEditDomain.Left := GetDomainLeft;
+  FADLabeledEditDomain.Top := COMPONENT_TOP;
+  FADLabeledEditDomain.Width := COMPONENT_WIDTH;
+  FADLabeledEditDomain.Anchors := COMPONENT_ANCHORS;
+  FADLabeledEditDomain.TabOrder := 2;
+  FADLabeledEditDomain.LabelCaption := 'Domain';
+  FADLabeledEditDomain.Text := TSessionManager.GetSessionInfo.Domain;
+  FADLabeledEditDomain.Enabled := False;
 end;
 
-procedure THostgatorMailManagerView.CreateFlowPanel;
+procedure THostgatorMailManagerView.CreateFlowPanelComponents;
 begin
   FFlowPanelComponents := TFlowPanel.Create(Self);
   FFlowPanelComponents.Parent := Self;
@@ -194,7 +192,7 @@ begin
   FFlowPanelComponents.BorderStyle := bsNone;
   FFlowPanelComponents.BevelOuter := bvNone;
   FFlowPanelComponents.Anchors := [];
-  FFlowPanelComponents.UseDockManager := False;
+  FFlowPanelComponents.UseDockManager := True;
   FFlowPanelComponents.FlowStyle := fsLeftRightTopBottom;
   FFlowPanelComponents.FullRepaint := True;
   FFlowPanelComponents.Padding.Left := 8;
@@ -210,7 +208,6 @@ begin
   FADPasswordButtonedEdit.Top := GetPasswordTop;
   FADPasswordButtonedEdit.Width := GetPasswordWidth;
   FADPasswordButtonedEdit.Anchors := COMPONENT_ANCHORS;
-  FADPasswordButtonedEdit.UseDockManager := False;
   FADPasswordButtonedEdit.TabOrder := 3;
   FADPasswordButtonedEdit.LabelCaption := 'Password';
   FADPasswordButtonedEdit.Text := '';
@@ -220,20 +217,16 @@ end;
 
 procedure THostgatorMailManagerView.CreateUsername;
 begin
-  FLabeledEditUsername := TLabeledEdit.Create(Self);
-  FLabeledEditUsername.Parent := FFlowPanelComponents;
-  FLabeledEditUsername.AlignWithMargins := True;
-  FLabeledEditUsername.Left := COMPONENT_LEFT;
-  FLabeledEditUsername.Top := COMPONENT_TOP;
-  FLabeledEditUsername.Width := COMPONENT_WIDTH;
-  FLabeledEditUsername.Height := COMPONENT_HEIGHT;
-  FLabeledEditUsername.Anchors := COMPONENT_ANCHORS;
-  FLabeledEditUsername.AutoSize := False;
-  FLabeledEditUsername.EditLabel.Width := Trunc(FLabeledEditUsername.Width / 2);
-  FLabeledEditUsername.EditLabel.Height := 15;
-  FLabeledEditUsername.EditLabel.Caption := 'Username';
-  FLabeledEditUsername.TabOrder := 1;
-  FLabeledEditUsername.Text := '';
+  FADLabeledEditUsername := TADLabeledEdit.Create(Self);
+  FADLabeledEditUsername.Parent := FFlowPanelComponents;
+  FADLabeledEditUsername.AlignWithMargins := True;
+  FADLabeledEditUsername.Left := COMPONENT_LEFT;
+  FADLabeledEditUsername.Top := COMPONENT_TOP;
+  FADLabeledEditUsername.Width := COMPONENT_WIDTH;
+  FADLabeledEditUsername.Anchors := COMPONENT_ANCHORS;
+  FADLabeledEditUsername.LabelCaption := 'Username';
+  FADLabeledEditUsername.TabOrder := 1;
+  FADLabeledEditUsername.Text := '';
 end;
 
 destructor THostgatorMailManagerView.Destroy;
@@ -244,20 +237,15 @@ end;
 
 procedure THostgatorMailManagerView.DoOnChangeADComboBoxOperation(_Sender: TObject);
 begin
-  FlowPanelOperation.LockDrawing;
-  try
-    case ADComboBoxOperation.ItemIndex of
-      0: ClearComponents;
-      1: CreateComponentAddNewEmail;
-      2: CreateComponentChangePassword;
-      3: CreateComponentDeleteEmail;
-    end;
-
-    ControlButtonSend(TOperation(ADComboBoxOperation.ItemIndex));
-    ResizeScreen(TOperation(ADComboBoxOperation.ItemIndex));
-  finally
-    FlowPanelOperation.UnlockDrawing;
+  case ADComboBoxOperation.ItemIndex of
+    0: ClearComponents;
+    1: CreateComponentAddNewEmail;
+    2: CreateComponentChangePassword;
+    3: CreateComponentDeleteEmail;
   end;
+
+  ControlButtonSend(TOperation(ADComboBoxOperation.ItemIndex));
+  ResizeScreen(TOperation(ADComboBoxOperation.ItemIndex));
 end;
 
 procedure THostgatorMailManagerView.DoOnKeyPressADComboBoxOperation(_Sender: TObject; var _Key: Char);
@@ -281,8 +269,25 @@ begin
   Result := COMPONENT_LEFT;
   if FADComboBoxUsername <> nil then
     Result := Result + FADComboBoxUsername.Left + FADComboBoxUsername.Width;
-  if FLabeledEditUsername <> nil then
-    Result := Result + FLabeledEditUsername.Left + FLabeledEditUsername.Width;
+  if FADLabeledEditUsername <> nil then
+    Result := Result + FADLabeledEditUsername.Left + FADLabeledEditUsername.Width;
+end;
+
+function THostgatorMailManagerView.GetHostgatorMailManager: THostgatorMailManager;
+begin
+  Result := THostgatorMailManager.Create;
+  try
+    Result.Email := TSessionManager.GetSessionInfo.GetMainAPIMail;
+    Result.Username := GetUsername;
+    Result.Domain := TSessionManager.GetSessionInfo.Domain;
+    Result.Password := GetPassword;
+    Result.Token := TSessionManager.GetSessionInfo.Token;
+    Result.HostgatorIP := TSessionManager.GetSessionInfo.HostgatorHostIP;
+    Result.HostgatorUsername := TSessionManager.GetSessionInfo.HostgatorUsername;
+  except
+    Result.Free;
+    raise;
+  end;
 end;
 
 function THostgatorMailManagerView.GetHostgatorMainManagerController: THostgatorMailManagerController;
@@ -292,13 +297,20 @@ begin
   Result := FHostgatorMailManagerController;
 end;
 
+function THostgatorMailManagerView.GetPassword: String;
+begin
+  Result := '';
+  if FADPasswordButtonedEdit <> nil then
+    Result := FADPasswordButtonedEdit.Text;
+end;
+
 function THostgatorMailManagerView.GetPasswordTop: Integer;
 begin
   Result := COMPONENT_PADDING;
   if FADComboBoxUsername <> nil then
     Result := Result + FADComboBoxUsername.Top + FADComboBoxUsername.Height;
-  if FLabeledEditUsername <> nil then
-    Result := Result + FLabeledEditUsername.Top + FLabeledEditUsername.Height;
+  if FADLabeledEditUsername <> nil then
+    Result := Result + FADLabeledEditUsername.Top + FADLabeledEditUsername.Height;
 end;
 
 function THostgatorMailManagerView.GetPasswordWidth: Integer;
@@ -306,25 +318,35 @@ begin
   Result := COMPONENT_PADDING;
   if FADComboBoxUsername <> nil then
     Result := Result + FADComboBoxUsername.Width;
-  if FLabeledEditUsername <> nil then
-    Result := Result + FLabeledEditUsername.Width;
-  if FLabeledEditDomain <> nil then
-    Result := Result + FLabeledEditDomain.Width;
+  if FADLabeledEditUsername <> nil then
+    Result := Result + FADLabeledEditUsername.Width;
+  if FADLabeledEditDomain <> nil then
+    Result := Result + FADLabeledEditDomain.Width;
 end;
 
 function THostgatorMailManagerView.GetUsername: String;
 begin
   Result := '';
   if FADComboBoxUsername <> nil then
-    Result := FADComboBoxUsername.ComboBox.Text;
-  if FLabeledEditUsername <> nil then
-    Result := FLabeledEditUsername.Text;
+    Result := FADComboBoxUsername.Text;
+  if FADLabeledEditUsername <> nil then
+    Result := FADLabeledEditUsername.Text;
 end;
 
 function THostgatorMailManagerView.GetUsers: TArray<String>;
+var
+  AHostgatorMailManager: THostgatorMailManager;
 begin
   if Length(FUsers) = 0 then
-    FUsers := HostgatorMainManagerController.GetUsernameList;
+  begin
+    AHostgatorMailManager := GetHostgatorMailManager;
+    try
+      FUsers := HostgatorMainManagerController.GetUsernameList(AHostgatorMailManager);
+    finally
+      AHostgatorMailManager.Free;
+    end;
+  end;
+
   Result := FUsers;
 end;
 
@@ -337,14 +359,21 @@ function THostgatorMailManagerView.IsUserValid: Boolean;
 begin
   Result := False;
   if FADComboBoxUsername <> nil then
-    Result := not FADComboBoxUsername.ComboBox.Text.IsEmpty;
-  if FLabeledEditUsername <> nil then
-    Result := not FLabeledEditUsername.Text.IsEmpty;
+    Result := not FADComboBoxUsername.Text.IsEmpty;
+  if FADLabeledEditUsername <> nil then
+    Result := not FADLabeledEditUsername.Text.IsEmpty;
 end;
 
 procedure THostgatorMailManagerView.LoadUsernameComboBox;
+var
+  AHostgatorMailManager: THostgatorMailManager;
 begin
-  FUsers := HostgatorMainManagerController.GetUsernameList;
+  AHostgatorMailManager := GetHostgatorMailManager;
+  try
+    FUsers := HostgatorMainManagerController.GetUsernameList(AHostgatorMailManager);
+  finally
+    AHostgatorMailManager.Free;
+  end;
 end;
 
 procedure THostgatorMailManagerView.PrepareComponents;
@@ -361,6 +390,12 @@ begin
   inherited;
   ADComboBoxOperation.OnChange := DoOnChangeADComboBoxOperation;
   ADComboBoxOperation.OnKeyPress := DoOnKeyPressADComboBoxOperation;
+end;
+
+procedure THostgatorMailManagerView.ResetOperation;
+begin
+  ADComboBoxOperation.ItemIndex := Ord(oNone);
+  ControlButtonSend(oNone);
 end;
 
 procedure THostgatorMailManagerView.ResizeScreen(_Operation: TOperation);
@@ -382,25 +417,32 @@ begin
 end;
 
 procedure THostgatorMailManagerView.SendInformation;
+var
+  AHostgatorMailManager: THostgatorMailManager;
 begin
   ValidateAdministratorChanging;
 
-  case ADComboBoxOperation.ComboBox.ItemIndex of
-    Ord(oAddNew):
-    begin
-      HostgatorMainManagerController.AddNewEmail(GetUsername, FADPasswordButtonedEdit.Text);
-      LoadUsernameComboBox;
+  AHostgatorMailManager := GetHostgatorMailManager;
+  try
+    case ADComboBoxOperation.ItemIndex of
+      Ord(oAddNew):
+      begin
+        HostgatorMainManagerController.AddNewEmail(AHostgatorMailManager);
+        LoadUsernameComboBox;
+      end;
+
+      Ord(oChangePassword):
+        HostgatorMainManagerController.ChangePassword(AHostgatorMailManager);
+
+      Ord(oDeleteEmail):
+        HostgatorMainManagerController.DeleteEmail(AHostgatorMailManager);
     end;
-
-    Ord(oChangePassword):
-      HostgatorMainManagerController.ChangePassword(GetUsername, FADPasswordButtonedEdit.Text);
-
-    Ord(oDeleteEmail):
-      HostgatorMainManagerController.DeleteEmail(GetUsername);
+  finally
+    AHostgatorMailManager.Free;
   end;
 
   TMessageView.New(MSG_0003).Success.Show;
-  ADComboBoxOperation.ComboBox.ItemIndex := 0;
+  ResetOperation;
   ResizeScreen(oNone);
   ClearComponents;
 end;
@@ -409,10 +451,10 @@ procedure THostgatorMailManagerView.ValidateAdministratorChanging;
 begin
   if HostgatorMainManagerController.IsUserAdmin(GetUsername) then
   begin
-    if ADComboBoxOperation.ComboBox.ItemIndex = Ord(oDeleteEmail) then
+    if ADComboBoxOperation.ItemIndex = Ord(oDeleteEmail) then
       TMessageView.New(MSG_0015).ShowAndAbort;
 
-    if ADComboBoxOperation.ComboBox.ItemIndex = Ord(oChangePassword) then
+    if ADComboBoxOperation.ItemIndex = Ord(oChangePassword) then
     begin
       TMessageView.New(MSG_0006).Show;
       AskAdminPassword;
@@ -422,7 +464,7 @@ end;
 
 procedure THostgatorMailManagerView.ValidateInformations;
 begin
-  case ADComboBoxOperation.ComboBox.ItemIndex of
+  case ADComboBoxOperation.ItemIndex of
     Ord(oAddNew):
     begin
       if not (IsUserValid and IsPasswordValid) then

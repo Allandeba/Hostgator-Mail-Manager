@@ -22,7 +22,9 @@ uses
   uHostgatorMailManagerController in 'source\controller\uHostgatorMailManagerController.pas',
   uHostgatorMailManager in 'source\model\uHostgatorMailManager.pas',
   uJsonDTO in 'source\model\uJsonDTO.pas',
-  uHostgatorExceptionController in 'source\controller\uHostgatorExceptionController.pas';
+  uHostgatorExceptionController in 'source\controller\uHostgatorExceptionController.pas',
+  uLogin in 'source\model\uLogin.pas',
+  uGithubReleases in 'source\model\uGithubReleases.pas';
 
 {$R *.res}
 

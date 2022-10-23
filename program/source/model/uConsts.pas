@@ -48,15 +48,10 @@ const
   IMG_SETTINGS = 'settings.png';
 
   // GitHub configuration
+  GITHUB_DEFAULT_API_REPOSITORY = 'https://api.github.com/repos/';
   GITHUB_OWNER_USERNAME = 'Allandeba';
   GITHUB_PROJECT_REPOSITORY_NAME = 'Hostgator-Mail-Manager';
-  GITHUB_DEFAULT_API_REPOSITORY = 'https://api.github.com/repos/';
-
-  GITHUB_PARAM_ACTUAL_RELEASE_VERSION = 'tag_name';
-  GITHUB_PARAM_RELEASE_VERSION = 'assets';
   GITHUB_PARAM_URL_GET_RELEASES = GITHUB_DEFAULT_API_REPOSITORY + GITHUB_OWNER_USERNAME + '/' + GITHUB_PROJECT_REPOSITORY_NAME + '/releases';
-  GITHUB_PARAM_DOWNLOAD_NEW_EXE_VERSION_URL = 'browser_download_url';
-  GITHUB_PARAM_RELEASE_URL = 'url';
 
 implementation
 

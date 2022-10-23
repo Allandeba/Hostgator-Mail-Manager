@@ -8,84 +8,83 @@ uses
 type
   THostgatorMailManagerController = class
   private
-    procedure PostRequest(_URL: String; _Params: TStringList);
+    procedure PostRequest(_URL: String; _Params: TStringList; _HostgatorMailManager: THostgatorMailManager);
     procedure DealWithHostgatorException(_HostgatorReturnedMessage: String);
-    procedure UpdateTokenPassword(_Password: String);
+    procedure UpdateTokenPassword(_Password: String; _Token: String);
 
-    function GetRequest(_URL: String; _Params: TStringList): String;
-    function GetUsernameRequest: String;
+    function GetRequest(_URL: String; _Params: TStringList; _HostgatorMailManager: THostgatorMailManager): String;
+    function GetUsernameRequest(_HostgatorMailManager: THostgatorMailManager): String;
   public
-    function GetUsernameList: TArray<String>;
+    function GetUsernameList(_HostgatorMailManager: THostgatorMailManager): TArray<String>;
     function IsUserAdmin(_Username: String): Boolean;
 
-    procedure AddNewEmail(_Username, _Password: String);
-    procedure ChangePassword(_Username, _Password: String);
-    procedure DeleteEmail(_Username: String);
+    procedure AddNewEmail(_HostgatorMailManager: THostgatorMailManager);
+    procedure ChangePassword(_HostgatorMailManager: THostgatorMailManager);
+    procedure DeleteEmail(_HostgatorMailManager: THostgatorMailManager);
   end;
 
 implementation
 
 uses
-  uSessionManager, uConsts, uSystemInfo, uRequest, uStrHelper, System.SysUtils, REST.Json, System.JSON, System.Generics.Collections, uHostgatorExceptionController,
-  uTokenManager;
+  uConsts, uSystemInfo, uRequest, uStrHelper, System.SysUtils, REST.Json, System.JSON, System.Generics.Collections, uHostgatorExceptionController, uTokenManager;
 
 { THostgatorMainManagerController }
 
-procedure THostgatorMailManagerController.AddNewEmail(_Username, _Password: String);
+procedure THostgatorMailManagerController.AddNewEmail(_HostgatorMailManager: THostgatorMailManager);
 var
   AParams: TStringList;
   AURL: String;
 begin
-  AURL := TSystemInfo.GetURLHostgator + HOSTGATOR_MAIL_ADD;
+  AURL := TSystemInfo.GetURLHostgator(_HostgatorMailManager.HostgatorIP) + HOSTGATOR_MAIL_ADD;
 
   AParams := TStringList.Create;
   try
-    AParams.Add(Format('email=%s@%s', [_Username, TSessionManager.GetSessionInfo.Domain]));
-    AParams.Add('domain=' + TSessionManager.GetSessionInfo.Domain);
-    AParams.Add('password=' + _Password);
+    AParams.Add(Format('email=%s@%s', [_HostgatorMailManager.Username, _HostgatorMailManager.Domain]));
+    AParams.Add('domain=' + _HostgatorMailManager.Domain);
+    AParams.Add('password=' + _HostgatorMailManager.Password);
     AParams.Add('quota=1024');
     AParams.Add('send_welcome_email=1');
 
-    PostRequest(AURL, AParams);
+    PostRequest(AURL, AParams, _HostgatorMailManager);
   finally
     AParams.Free;
   end;
 end;
 
-procedure THostgatorMailManagerController.ChangePassword(_Username, _Password: String);
+procedure THostgatorMailManagerController.ChangePassword(_HostgatorMailManager: THostgatorMailManager);
 var
   AParams: TStringList;
   AURL: String;
 begin
-  AURL := TSystemInfo.GetURLHostgator + HOSTGATOR_MAIL_UPDATE;
+  AURL := TSystemInfo.GetURLHostgator(_HostgatorMailManager.HostgatorIP) + HOSTGATOR_MAIL_UPDATE;
 
   AParams := TStringList.Create;
   try
-    AParams.Add(Format('email=%s@%s', [_Username, TSessionManager.GetSessionInfo.Domain]));
-    AParams.Add('domain=' + TSessionManager.GetSessionInfo.Domain);
-    AParams.Add('password=' + _Password);
-    AParams.Add('fullEmail=' + TSessionManager.GetSessionInfo.GetMainAPIMail);
+    AParams.Add(Format('email=%s@%s', [_HostgatorMailManager.Username, _HostgatorMailManager.Domain]));
+    AParams.Add('domain=' + _HostgatorMailManager.Domain);
+    AParams.Add('password=' + _HostgatorMailManager.Password);
+    AParams.Add('fullEmail=' + _HostgatorMailManager.Email);
 
-    PostRequest(AURL, AParams);
+    PostRequest(AURL, AParams, _HostgatorMailManager);
   finally
     AParams.Free;
   end;
 
-  if IsUserAdmin(_Username) then
-    UpdateTokenPassword(_Password);
+  if IsUserAdmin(_HostgatorMailManager.Username) then
+    UpdateTokenPassword(_HostgatorMailManager.Password, _HostgatorMailManager.Token);
 end;
 
-procedure THostgatorMailManagerController.DeleteEmail(_Username: String);
+procedure THostgatorMailManagerController.DeleteEmail(_HostgatorMailManager: THostgatorMailManager);
 var
   AParams: TStringList;
   AURL: String;
 begin
-  AURL := TSystemInfo.GetURLHostgator + HOSTGATOR_MAIL_DELETE;
+  AURL := TSystemInfo.GetURLHostgator(_HostgatorMailManager.HostgatorIP) + HOSTGATOR_MAIL_DELETE;
 
   AParams := TStringList.Create;
   try
-    AParams.Add(Format('email=%s@%s', [_Username, TSessionManager.GetSessionInfo.Domain]));
-    PostRequest(AURL, AParams);
+    AParams.Add(Format('email=%s@%s', [_HostgatorMailManager.Username, _HostgatorMailManager.Domain]));
+    PostRequest(AURL, AParams, _HostgatorMailManager);
   finally
     AParams.Free;
   end;
@@ -116,7 +115,7 @@ begin
   end;
 end;
 
-function THostgatorMailManagerController.GetRequest(_URL: String; _Params: TStringList): String;
+function THostgatorMailManagerController.GetRequest(_URL: String; _Params: TStringList; _HostgatorMailManager: THostgatorMailManager): String;
 var
   ARequest: IRequest<String>;
 begin
@@ -124,19 +123,19 @@ begin
   ARequest
     .New(_URL)
       .AddParams(_Params)
-        .Authorization(TSystemInfo.GetAuthorizationToken);
+        .Authorization(TSystemInfo.GetAuthorizationToken(_HostgatorMailManager.HostgatorUsername, _HostgatorMailManager.Token));
 
   Result := ARequest.DoRequest;
 end;
 
-function THostgatorMailManagerController.GetUsernameList: TArray<String>;
+function THostgatorMailManagerController.GetUsernameList(_HostgatorMailManager: THostgatorMailManager): TArray<String>;
 var
   AContentRequest: String;
   AUsernameList: TList<String>;
   AHostgatorMailManagerUsers: THostgatorMailManagerUsers;
   AHostgatorUserData: THostgatorUserData;
 begin
-  AContentRequest := GetUsernameRequest;
+  AContentRequest := GetUsernameRequest(_HostgatorMailManager);
   if AContentRequest.IsEmpty then
     raise Exception.Create(MSG_0005 + sLineBreak + 'THostgatorMailManagerController.GetUsernameList');
 
@@ -160,7 +159,7 @@ begin
   end;
 end;
 
-function THostgatorMailManagerController.GetUsernameRequest: String;
+function THostgatorMailManagerController.GetUsernameRequest(_HostgatorMailManager: THostgatorMailManager): String;
 const
   SORT_ORDER = '1';
   SORT_COLUMN = 'user';
@@ -170,29 +169,27 @@ var
   AURL: String;
   AParams: TStringList;
 begin
-  AURL := TSystemInfo.GetURLHostgator + HOSTGATOR_GET_ALL_MAILS;
+  AURL := TSystemInfo.GetURLHostgator(_HostgatorMailManager.HostgatorIP) + HOSTGATOR_GET_ALL_MAILS;
 
   AParams := TStringList.Create;
   try
     AParams.Add('api.sort=' + SORT_ORDER);
     AParams.Add('api.sort_column_0=' + SORT_COLUMN);
-    AParams.Add('api.filter_term_0=' + TSessionManager.GetSessionInfo.Domain);
+    AParams.Add('api.filter_term_0=' + _HostgatorMailManager.Domain);
     AParams.Add('api.filter_column_0=' + SORT_FILTER);
 
-    Result := GetRequest(AURL, AParams);
+    Result := GetRequest(AURL, AParams, _HostgatorMailManager);
   finally
     AParams.Free;
   end;
 end;
 
-
-
 function THostgatorMailManagerController.IsUserAdmin(_Username: String): Boolean;
 begin
-  Result := AnsiSameText(_Username, TSessionManager.GetSessionInfo.MainEmailUsername)
+  Result := AnsiSameText(_Username, TSystemInfo.GetAPIUsername);
 end;
 
-procedure THostgatorMailManagerController.PostRequest(_URL: String; _Params: TStringList);
+procedure THostgatorMailManagerController.PostRequest(_URL: String; _Params: TStringList; _HostgatorMailManager: THostgatorMailManager);
 var
   ARequest: IRequest<String>;
 begin
@@ -200,15 +197,15 @@ begin
   ARequest
     .New(_URL)
       .AddParams(_Params)
-        .Authorization(TSystemInfo.GetAuthorizationToken)
+        .Authorization(TSystemInfo.GetAuthorizationToken(_HostgatorMailManager.HostgatorUsername, _HostgatorMailManager.Token))
           .RequestType(roPost);
 
   DealWithHostgatorException(ARequest.DoRequest);
 end;
 
-procedure THostgatorMailManagerController.UpdateTokenPassword(_Password: String);
+procedure THostgatorMailManagerController.UpdateTokenPassword(_Password: String; _Token: String);
 begin
-  TTokenManager.ReplaceToken(_Password);
+  TTokenManager.ReplaceToken(_Password, _Token);
 end;
 
 end.

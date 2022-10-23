@@ -17,24 +17,41 @@ type
     class function GetFilePathConfigImage: String;
     class function GetFilePathPassword1Image: String;
     class function GetFilePathPassword2Image: String;
-    class function GetClientVersion<T>: T;
-    class function GetAuthorizationToken: String;
-    class function GetURLHostgator: String;
+    class function GetClientVersion: String;
+    class function GetAuthorizationToken(_HostgatorUsername: String; _Token: String): String;
+    class function GetURLHostgator(_HostgatorHostIP: String): String;
+    class function GetAPIUsername: String;
   end;
 
 implementation
 
 uses
-  System.Classes, JSON, uMessages, uFrameworkMessage, uSessionManager, Vcl.Themes, uFrameworkConsts;
+  System.Classes, JSON, uMessages, uFrameworkMessage, Vcl.Themes, uFrameworkConsts;
 
 { TSystemInfo }
 
-class function TSystemInfo.GetAuthorizationToken: String;
+class function TSystemInfo.GetAPIUsername: String;
+var
+  AStringList: TStringList;
 begin
-  Result := Format('cpanel %s:%s', [TSessionManager.GetSessionInfo.HostgatorUsername, TSessionManager.GetSessionInfo.Token]);
+  if not FileExists(COMPANY_FILE) then
+    TMessageView.New(MSG_0012).Detail(COMPANY_FILE).ShowAndAbort;
+
+  AStringList := TStringList.Create;
+  try
+    AStringList.LoadFromFile(COMPANY_FILE);
+    Result := AStringList.Values[SYSTEM_PARAM_MAIN_EMAIL_USERNAME];
+  finally
+    AStringList.Free;
+  end;
 end;
 
-class function TSystemInfo.GetClientVersion<T>: T;
+class function TSystemInfo.GetAuthorizationToken(_HostgatorUsername: String; _Token: String): String;
+begin
+  Result := Format('cpanel %s:%s', [_HostgatorUsername, _Token]);
+end;
+
+class function TSystemInfo.GetClientVersion: String;
 var
   AStringList: TStringList;
   AJSONValue: TJSonValue;
@@ -47,7 +64,7 @@ begin
     AStringList.LoadFromFile(VERSION_PATH);
     AJSONValue := TJSonObject.ParseJSONValue(AStringList.Text);
     try
-      Result := AJSONValue.GetValue<T>('version');
+      Result := AJSONValue.GetValue<String>('version');
     finally
       AJSONValue.Free;
     end;
@@ -69,9 +86,9 @@ begin
   Result := ExtractFilePath(Application.ExeName) + CONFIG_FILE;
 end;
 
-class function TSystemInfo.GetURLHostgator: String;
+class function TSystemInfo.GetURLHostgator(_HostgatorHostIP: String): String;
 begin
-  Result := Format('https://%s:2083/cpsess5235788348/execute/Email/', [TSessionManager.GetSessionInfo.HostgatorHostIP]);
+  Result := 'https://' + _HostgatorHostIP + ':2083/cpsess5235788348/execute/Email/';
 end;
 
 class function TSystemInfo.IsBlackTheme: Boolean;

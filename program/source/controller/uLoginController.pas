@@ -3,37 +3,38 @@ unit uLoginController;
 interface
 
 uses
-  System.Classes;
+  System.Classes, uLogin;
 
 type
   THostgatorResultCode = (hrcFail, hrcSuccess);
 
   TLoginController = class
   private
-    procedure ValidateHostgatorLoginRequest(_RequestContent: String);
+    procedure ValidateHostgatorLoginException(_RequestContent: String);
     function GetRequestLogin(_LoginValidationParam: TStringList; _URL: String): String;
   public
-    procedure ValidateLogin(_Password: String);
-    procedure SaveLoginInformation;
+    procedure ValidateLogin(_Login: TLogin);
+    procedure SaveLoginInformation(_Login: TLogin);
   end;
 
 implementation
 
 uses
-  uStrHelper, uConsts, uRequest, System.SysUtils, uFrameworkMessages, uMessages, uJSONUtils, idHTTP, uSessionManager, uSystemInfo;
+  uStrHelper, uConsts, uRequest, System.SysUtils, uFrameworkMessages, uMessages, idHTTP, uSystemInfo,
+  uHostgatorExceptionController;
 
 { TLoginController }
 
-procedure TLoginController.SaveLoginInformation;
+procedure TLoginController.SaveLoginInformation(_Login: TLogin);
 var
   ALoginInformationParam: TStringList;
 begin
   ALoginInformationParam := TStringList.Create;
   try
-    ALoginInformationParam.AddPair(SYSTEM_PARAM_DOMAIN, TSessionManager.GetSessionInfo.Domain);
-    ALoginInformationParam.AddPair(SYSTEM_PARAM_MAIN_EMAIL_USERNAME, TSessionManager.GetSessionInfo.MainEmailUsername);
-    ALoginInformationParam.AddPair(SYSTEM_PARAM_HOSTGATOR_USERNAME, TSessionManager.GetSessionInfo.HostgatorUsername);
-    ALoginInformationParam.AddPair(SYSTEM_PARAM_HOSTGATOR_HOST_IP, TSessionManager.GetSessionInfo.HostgatorHostIP);
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_DOMAIN, _Login.Domain);
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_MAIN_EMAIL_USERNAME, _Login.MainAPIUsername);
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_HOSTGATOR_USERNAME, _Login.HostgatorUsername);
+    ALoginInformationParam.AddPair(SYSTEM_PARAM_HOSTGATOR_HOST_IP, _Login.HostgatorHostIP);
 
     ALoginInformationParam.SaveToFile(TSystemInfo.GetFilePathCompanyConfiguration);
   finally
@@ -41,34 +42,39 @@ begin
   end;
 end;
 
-procedure TLoginController.ValidateHostgatorLoginRequest(_RequestContent: String);
+procedure TLoginController.ValidateHostgatorLoginException(_RequestContent: String);
 const
   HOSTGATOR_RESULT_STATUS = 'status';
 var
-  AHostgatorServerResult: Integer;
+  AHostgatorLoginException: THostgatorLoginException;
 begin
   if _RequestContent.IsEmpty then
     raise Exception.Create(Format(FMSG_0002, ['Nothing has returned from hostgator server!' + sLineBreak + 'TLoginController.ValidateHostgatorLoginRequest']));
 
-  AHostgatorServerResult := TJSONUtils<Integer>.Parse(HOSTGATOR_RESULT_STATUS, _RequestContent, False);
-  if AHostgatorServerResult <> Ord(hrcSuccess) then
-    raise Exception.Create(MSG_0004);
+  AHostgatorLoginException := THostgatorLoginException.Create;
+  try
+    AHostgatorLoginException.AsJson := _RequestContent;
+    if AHostgatorLoginException.Status <> Ord(hrcSuccess) then
+      raise Exception.Create(MSG_0004);
+  finally
+    AHostgatorLoginException.Free;
+  end;
 end;
 
-procedure TLoginController.ValidateLogin(_Password: String);
+procedure TLoginController.ValidateLogin(_Login: TLogin);
 var
   ALoginValidationParam: TStringList;
   AURL: String;
   ARequestContent: String;
 begin
-  AURL := URL_WEBMAIL + TSessionManager.GetSessionInfo.Domain + HOSTGATOR_MAIL_ACCESS;
+  AURL := URL_WEBMAIL + _Login.Domain + HOSTGATOR_MAIL_ACCESS;
   ALoginValidationParam := TStringList.Create;
   try
-    ALoginValidationParam.Add('user=' + TSessionManager.GetSessionInfo.GetMainAPIMail);
-    ALoginValidationParam.Add('pass=' + _Password);
+    ALoginValidationParam.Add('user=' + _Login.MainEmailAPI);
+    ALoginValidationParam.Add('pass=' + _Login.Password);
 
     ARequestContent := GetRequestLogin(ALoginValidationParam, AURL);
-    ValidateHostgatorLoginRequest(ARequestContent);
+    ValidateHostgatorLoginException(ARequestContent);
   finally
     ALoginValidationParam.Free;
   end;

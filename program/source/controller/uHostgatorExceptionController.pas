@@ -8,6 +8,33 @@ uses
 {$M+}
 
 type
+  TNotices = class
+  end;
+
+  THostgatorLoginException = class(TJsonDTO)
+  private
+    [JSONName('notices'), JSONMarshalled(False)]
+    FNoticesArray: TArray<TNotices>;
+    [GenericListReflect]
+    FNotices: TObjectList<TNotices>;
+    [JSONName('redirect')]
+    FRedirect: string;
+    [JSONName('security_token')]
+    FSecurityToken: string;
+    [JSONName('status')]
+    FStatus: Integer;
+    function GetNotices: TObjectList<TNotices>;
+  protected
+    function GetAsJson: string; override;
+  published
+    property Notices: TObjectList<TNotices> read GetNotices;
+    property Redirect: string read FRedirect write FRedirect;
+    property SecurityToken: string read FSecurityToken write FSecurityToken;
+    property Status: Integer read FStatus write FStatus;
+  public
+    destructor Destroy; override;
+  end;
+
   TMetadata = class
   end;
 
@@ -32,6 +59,25 @@ type
   end;
 
 implementation
+
+{ THostgatorLoginException }
+
+destructor THostgatorLoginException.Destroy;
+begin
+  GetNotices.Free;
+  inherited;
+end;
+
+function THostgatorLoginException.GetNotices: TObjectList<TNotices>;
+begin
+  Result := ObjectList<TNotices>(FNotices, FNoticesArray);
+end;
+
+function THostgatorLoginException.GetAsJson: string;
+begin
+  RefreshArray<TNotices>(FNotices, FNoticesArray);
+  Result := inherited;
+end;
 
 { THostgatorExceptionController }
 

@@ -8,6 +8,25 @@ uses
 {$M+}
 
 type
+  THostgatorMailManager = class
+  private
+    FMainAPIEmail: String;
+    FUsername: String;
+    FDomain: String;
+    FPassword: String;
+    FToken: String;
+    FHostgatorIP: String;
+    FHostgatorUsername: String;
+  public
+    property Email: String read FMainAPIEmail write FMainAPIEmail;
+    property Username: String read FUsername write FUsername;
+    property Domain: String read FDomain write FDomain;
+    property Password: String read FPassword write FPassword;
+    property Token: String read FToken write FToken;
+    property HostgatorIP: String read FHostgatorIP write FHostgatorIP;
+    property HostgatorUsername: String read FHostgatorUsername write FHostgatorUsername;
+  end;
+
   THostgatorUserData = class
   private
     [JSONName('diskquota')]
