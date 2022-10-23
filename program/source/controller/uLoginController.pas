@@ -20,8 +20,7 @@ type
 implementation
 
 uses
-  uStrHelper, uConsts, uRequest, System.SysUtils, uFrameworkMessages, uMessages, idHTTP, uSystemInfo,
-  uHostgatorExceptionController;
+  uStrHelper, uConsts, uRequest, System.SysUtils, uFrameworkMessages, uMessages, idHTTP, uSystemInfo, uHostgatorExceptionController, IdSSLOpenSSL;
 
 { TLoginController }
 
@@ -94,8 +93,12 @@ begin
               .DoRequest;
   except
     on E: Exception do
+    begin
       if E is EIdHTTPProtocolException then
         raise Exception.Create(MSG_0004);
+      if E is EIdOSSLCouldNotLoadSSLLibrary then
+        raise Exception.Create(MSG_0016);
+    end;
   end;
 end;
 

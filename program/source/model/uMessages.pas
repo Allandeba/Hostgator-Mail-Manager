@@ -22,6 +22,7 @@ const
   MSG_0012 = MISSING_INFORMATION + MSG_CRLF + 'archive not exist.';
   MSG_0013 = 'System update required' + MSG_CRLF + 'You must update the system to continue.';
   MSG_0014 = 'Overwriting information' + MSG_CRLF + 'It will erase the current token information.';
+  MSG_0016 = MISSING_INFORMATION + MSG_CRLF + 'Please copy the "libeay32.dll" and "ssleay32.dll" to the .exe folder.';
 
 implementation
 
