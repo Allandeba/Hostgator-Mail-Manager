@@ -95,6 +95,7 @@ end;
 
 procedure THostgatorMailManagerView.ButtonSendClick(Sender: TObject);
 begin
+  Repaint; // Todo: It needs to be repainted every OnClick with mouse click because it loses the style.
   ValidateInformations;
   SendInformation;
 end;

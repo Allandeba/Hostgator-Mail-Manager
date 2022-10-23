@@ -37,6 +37,7 @@ procedure TSystemLoginView.ButtonLoginClick(Sender: TObject);
 var
   ALogin: TLogin;
 begin
+  Repaint; // Todo: It needs to be repainted every OnClick with mouse click because it loses the style.
   ALogin := GetLoginInformation;
   try
     LoginController.ValidateLogin(ALogin);
