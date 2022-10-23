@@ -143,8 +143,6 @@ end;
 
 function TVersionUpdateController.GetURLDownloadNewVersion: String;
 var
-  AURLReleaseVersionArchives: String;
-  AContentRequest: String;
   AGithubReleases: TGithubReleases;
 begin
   AGithubReleases := TGithubReleases.Create;
