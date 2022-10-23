@@ -90,7 +90,7 @@ uses
 procedure THostgatorMailManagerView.AskAdminPassword;
 begin
   if GetTokenInformation.IsEmpty then
-    raise ENotImplemented.Create('THostgatorMailManagerView.AskAdminPassword');
+    Abort;
 end;
 
 procedure THostgatorMailManagerView.ButtonSendClick(Sender: TObject);
