@@ -1,0 +1,15 @@
+1. Use this template: "C:\GitHub\Delphi\Packages\" and replace all filepath for your location.
+2. Add this line into yours Library and Browsing Path.
+
+2.1 Adicionar no Browsing Path a unit dos Componentes
+	C:\GitHub\Delphi\Packages\Components\Source
+
+2.2 Adicionar no Browsing Path a unit da Framework
+	C:\GitHub\Delphi\Packages\Framework\Source\View;C:\GitHub\Delphi\Packages\Framework\Source\Model;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\ciphers;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\cryptography;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\hashes/;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\library surface;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\RSA;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\utilities
+2.3 Adicionar no Browsing Path a unit da SysUtils
+	C:\GitHub\Delphi\Packages\SysUtils\Source
+	
+Sugestion:
+	Copy all of them and paste into the end of the line of each Library and Browsing Path.
+	Like this:
+		;C:\GitHub\Delphi\Packages\Components\Source;C:\GitHub\Delphi\Packages\Framework\Source\View;C:\GitHub\Delphi\Packages\Framework\Source\Model;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\ciphers;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\cryptography;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\hashes/;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\library surface;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\RSA;C:\GitHub\Delphi\Packages\Framework\Source\Cryptographer\utilities;C:\GitHub\Delphi\Packages\SysUtils\Source
