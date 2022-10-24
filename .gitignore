@@ -69,4 +69,5 @@ __recovery/
 modules/
 
 *DS_Store
-/program/Win32
+*Win32
+*Win64
