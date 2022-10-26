@@ -47,8 +47,8 @@ begin
       case _VersionControl of
         vcMajor:
         begin
-          if not ACountDot = Ord(vcMajor) then
-            Exit(_Version.Substring(1, I - 1).ToInteger);
+          if ACountDot = Ord(vcMajor) then
+            Exit(_Version.Substring(0, I - 1).ToInteger);
         end;
 
         vcMinor:
