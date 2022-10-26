@@ -1,5 +1,4 @@
 program HostgatorMailManagerTest;
-
 {$IFNDEF TESTINSIGHT}
 {$APPTYPE CONSOLE}
 {$ENDIF}
@@ -13,7 +12,23 @@ uses
   DUnitX.Loggers.Xml.NUnit,
   {$ENDIF }
   DUnitX.TestFramework,
-  uHostgatorMailManagerTest in 'uHostgatorMailManagerTest.pas';
+  uCopyRequiredFilesToExeFilePath in 'uCopyRequiredFilesToExeFilePath.pas',
+  uHostgatorExceptionController in '..\program\source\controller\uHostgatorExceptionController.pas',
+  uHostgatorMailManagerController in '..\program\source\controller\uHostgatorMailManagerController.pas',
+  uLoginController in '..\program\source\controller\uLoginController.pas',
+  uVersionUpdateController in '..\program\source\controller\uVersionUpdateController.pas',
+  uConsts in '..\program\source\model\uConsts.pas',
+  uSystemInfo in '..\program\source\model\uSystemInfo.pas',
+  uLogin in '..\program\source\model\uLogin.pas',
+  uJsonDTO in '..\program\source\model\uJsonDTO.pas',
+  uHostgatorMailManager in '..\program\source\model\uHostgatorMailManager.pas',
+  uTokenManager in '..\program\source\model\uTokenManager.pas',
+  uGithubReleases in '..\program\source\model\uGithubReleases.pas',
+  uMessages in '..\program\source\model\uMessages.pas',
+  uUnitTestUtils in 'uUnitTestUtils.pas',
+  uVersionControllerTest in 'uVersionControllerTest.pas',
+  uLoginControllerTest in 'uLoginControllerTest.pas',
+  uHostgatorMailManagerControllerTest in 'uHostgatorMailManagerControllerTest.pas';
 
 {$IFNDEF TESTINSIGHT}
 var
@@ -23,6 +38,7 @@ var
   nunitLogger : ITestLogger;
 {$ENDIF}
 begin
+  TCopyRequiredFilesToExeFilePath.Execute;
 {$IFDEF TESTINSIGHT}
   TestInsight.DUnitX.RunRegisteredTests;
 {$ELSE}
@@ -35,7 +51,6 @@ begin
     runner.UseRTTI := True;
     //When true, Assertions must be made during tests;
     runner.FailsOnNoAsserts := False;
-
     //tell the runner how we will log things
     //Log to the console window if desired
     if TDUnitX.Options.ConsoleMode <> TDunitXConsoleMode.Off then
@@ -46,12 +61,10 @@ begin
     //Generate an NUnit compatible XML File
     nunitLogger := TDUnitXXMLNUnitFileLogger.Create(TDUnitX.Options.XMLOutputFile);
     runner.AddLogger(nunitLogger);
-
     //Run tests
     results := runner.Execute;
     if not results.AllPassed then
       System.ExitCode := EXIT_ERRORS;
-
     {$IFNDEF CI}
     //We don't want this happening when running under CI.
     if TDUnitX.Options.ExitBehavior = TDUnitXExitBehavior.Pause then

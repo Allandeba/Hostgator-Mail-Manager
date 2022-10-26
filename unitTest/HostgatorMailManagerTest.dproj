@@ -2,9 +2,9 @@
     <PropertyGroup>
         <ProjectGuid>{E0AF66C8-865F-450E-8252-7BCF93F67609}</ProjectGuid>
         <ProjectVersion>19.5</ProjectVersion>
-        <FrameworkType>None</FrameworkType>
+        <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Console</AppType>
@@ -47,7 +47,7 @@
         <DCC_S>false</DCC_S>
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <UsingDelphiRTL>true</UsingDelphiRTL>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
@@ -87,16 +87,32 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="uHostgatorMailManagerTest.pas"/>
+        <DCCReference Include="uCopyRequiredFilesToExeFilePath.pas"/>
+        <DCCReference Include="..\program\source\controller\uHostgatorExceptionController.pas"/>
+        <DCCReference Include="..\program\source\controller\uHostgatorMailManagerController.pas"/>
+        <DCCReference Include="..\program\source\controller\uLoginController.pas"/>
+        <DCCReference Include="..\program\source\controller\uVersionUpdateController.pas"/>
+        <DCCReference Include="..\program\source\model\uConsts.pas"/>
+        <DCCReference Include="..\program\source\model\uSystemInfo.pas"/>
+        <DCCReference Include="..\program\source\model\uLogin.pas"/>
+        <DCCReference Include="..\program\source\model\uJsonDTO.pas"/>
+        <DCCReference Include="..\program\source\model\uHostgatorMailManager.pas"/>
+        <DCCReference Include="..\program\source\model\uTokenManager.pas"/>
+        <DCCReference Include="..\program\source\model\uGithubReleases.pas"/>
+        <DCCReference Include="..\program\source\model\uMessages.pas"/>
+        <DCCReference Include="uUnitTestUtils.pas"/>
+        <DCCReference Include="uVersionControllerTest.pas"/>
+        <DCCReference Include="uLoginControllerTest.pas"/>
+        <DCCReference Include="uHostgatorMailManagerControllerTest.pas"/>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_1</Key>
-            <CfgParent>Base</CfgParent>
-        </BuildConfiguration>
-        <BuildConfiguration Include="Release">
-            <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
     </ItemGroup>
@@ -109,7 +125,12 @@
                     <Source Name="MainSource">HostgatorMailManagerTest.dpr</Source>
                 </Source>
             </Delphi.Personality>
-            <Deployment Version="4">
+            <Deployment Version="3">
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
@@ -120,8 +141,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
+                <DeployFile LocalName="Win32\Release\HostgatorMailManagerTest.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>HostgatorMailManagerTest.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -151,6 +173,16 @@
                     <Platform Name="Android64">
                         <RemoteDir>classes</RemoteDir>
                         <Operation>64</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidClassesDexFile">
+                    <Platform Name="Android">
+                        <RemoteDir>classes</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>classes</RemoteDir>
+                        <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="AndroidFileProvider">
@@ -444,11 +476,6 @@
                         <Operation>1</Operation>
                         <Extensions>.framework</Extensions>
                     </Platform>
-                    <Platform Name="OSXARM64">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.framework</Extensions>
-                    </Platform>
                     <Platform Name="Win32">
                         <Operation>0</Operation>
                     </Platform>
@@ -462,7 +489,7 @@
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
@@ -472,11 +499,6 @@
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX64">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSXARM64">
                         <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
@@ -495,7 +517,7 @@
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
@@ -505,11 +527,6 @@
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX64">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSXARM64">
                         <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
@@ -532,7 +549,7 @@
                     <Platform Name="iOSDevice64">
                         <Operation>0</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSX32">
@@ -540,10 +557,6 @@
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSX64">
-                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="OSXARM64">
                         <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
@@ -556,17 +569,13 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
-                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
                 </DeployClass>
                 <DeployClass Name="iPad_AppIcon152">
                     <Platform Name="iOSDevice64">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -576,7 +585,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -586,7 +595,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -596,7 +605,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -606,7 +615,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -616,7 +625,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -626,7 +635,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -636,7 +645,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -646,7 +655,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -656,7 +665,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -666,7 +675,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -676,7 +685,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -686,7 +695,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -696,7 +705,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -706,7 +715,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -716,7 +725,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -726,7 +735,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -736,7 +745,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -746,7 +755,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\AppIcon.appiconset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -768,10 +777,6 @@
                         <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
-                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectiOSEntitlements">
                     <Platform Name="iOSDevice32">
@@ -779,10 +784,6 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSDevice64">
-                        <RemoteDir>..\</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimARM64">
                         <RemoteDir>..\</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -794,7 +795,7 @@
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -803,7 +804,7 @@
                         <RemoteDir>..\$(PROJECTNAME).launchscreen</RemoteDir>
                         <Operation>64</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <RemoteDir>..\$(PROJECTNAME).launchscreen</RemoteDir>
                         <Operation>64</Operation>
                     </Platform>
@@ -815,16 +816,12 @@
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXDebug">
                     <Platform Name="OSX64">
-                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSXARM64">
                         <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -838,10 +835,6 @@
                         <RemoteDir>..\</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="OSXARM64">
-                        <RemoteDir>..\</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXInfoPList">
                     <Platform Name="OSX32">
@@ -852,10 +845,6 @@
                         <RemoteDir>Contents</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="OSXARM64">
-                        <RemoteDir>Contents</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
                     <Platform Name="OSX32">
@@ -863,10 +852,6 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX64">
-                        <RemoteDir>Contents\Resources</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSXARM64">
                         <RemoteDir>Contents\Resources</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -886,7 +871,7 @@
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="iOSSimARM64">
+                    <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Linux64">
@@ -897,10 +882,6 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX64">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSXARM64">
                         <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -942,17 +923,18 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimARM64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>
