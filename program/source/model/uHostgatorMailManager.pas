@@ -17,14 +17,18 @@ type
     FToken: String;
     FHostgatorIP: String;
     FHostgatorUsername: String;
-  public
-    property Email: String read FMainAPIEmail write FMainAPIEmail;
-    property Username: String read FUsername write FUsername;
-    property Domain: String read FDomain write FDomain;
+    function GetDomain: String;
+    function GetHostgatorUsername: String;
+    function GetMainAPIEmail: String;
+    function GetUsername: String;public
+
+    property Email: String read GetMainAPIEmail write FMainAPIEmail;
+    property Username: String read GetUsername write FUsername;
+    property Domain: String read GetDomain write FDomain;
     property Password: String read FPassword write FPassword;
     property Token: String read FToken write FToken;
     property HostgatorIP: String read FHostgatorIP write FHostgatorIP;
-    property HostgatorUsername: String read FHostgatorUsername write FHostgatorUsername;
+    property HostgatorUsername: String read GetHostgatorUsername write FHostgatorUsername;
   end;
 
   THostgatorUserData = class
@@ -114,6 +118,9 @@ type
   
 implementation
 
+uses
+  System.SysUtils;
+
 { TRootDTO }
 
 constructor THostgatorMailManagerUsers.Create;
@@ -138,6 +145,28 @@ function THostgatorMailManagerUsers.GetAsJson: string;
 begin
   RefreshArray<THostgatorUserData>(FData, FDataArray);
   Result := inherited;
+end;
+
+{ THostgatorMailManager }
+
+function THostgatorMailManager.GetDomain: String;
+begin
+  Result := FDomain.ToLower;
+end;
+
+function THostgatorMailManager.GetHostgatorUsername: String;
+begin
+  Result := FHostgatorUsername.ToLower;
+end;
+
+function THostgatorMailManager.GetMainAPIEmail: String;
+begin
+  Result := FMainAPIEmail.ToLower;
+end;
+
+function THostgatorMailManager.GetUsername: String;
+begin
+  Result := FUsername.ToLower;
 end;
 
 end.
