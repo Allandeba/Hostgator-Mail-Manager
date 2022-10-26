@@ -20,7 +20,7 @@ type
 implementation
 
 uses
-  uStrHelper, uConsts, uRequest, System.SysUtils, uFrameworkMessages, uMessages, idHTTP, uSystemInfo, uHostgatorExceptionController, IdSSLOpenSSL;
+  uConsts, uRequest, System.SysUtils, uFrameworkMessages, uMessages, idHTTP, uSystemInfo, uHostgatorExceptionController, IdSSLOpenSSL;
 
 { TLoginController }
 
