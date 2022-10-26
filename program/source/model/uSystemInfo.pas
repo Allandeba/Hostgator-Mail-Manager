@@ -54,7 +54,6 @@ end;
 class function TSystemInfo.GetClientVersion: String;
 var
   AStringList: TStringList;
-  AJSONValue: TJSonValue;
 begin
   if not FileExists(VERSION_PATH) then
     TMessageView.New(MSG_0012).Detail(VERSION_PATH).ShowAndAbort;
@@ -62,12 +61,7 @@ begin
   AStringList := TStringList.Create;
   try
     AStringList.LoadFromFile(VERSION_PATH);
-    AJSONValue := TJSonObject.ParseJSONValue(AStringList.Text);
-    try
-      Result := AJSONValue.GetValue<String>('version');
-    finally
-      AJSONValue.Free;
-    end;
+    Result := AStringList.Values[FILENAME_VERSION_API];
   finally
     AStringList.Free;
   end;

@@ -23,7 +23,7 @@ implementation
 
 uses
   Vcl.Forms, uHostgatorMailManagerView, uSystemLoginView, uVersionUpdateController, uFrameworkMessage, uMessages, uConfigurationController, System.SysUtils, Vcl.Themes,
-  Vcl.Styles, uConsts, Vcl.StdCtrls;
+  Vcl.Styles, uConsts, Vcl.StdCtrls, uSystemInfo;
 
 { TSystemStartup }
 
@@ -33,7 +33,7 @@ var
 begin
   AVersionControlController := TVersionUpdateController.Create;
   try
-    if AVersionControlController.HasUpdatedVersion then
+    if AVersionControlController.HasUpdatedVersion(TSystemInfo.GetClientVersion) then
     begin
       TMessageView.New(MSG_0013).Show;
       AVersionControlController.UpdateVersion;

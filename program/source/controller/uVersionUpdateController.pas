@@ -16,13 +16,13 @@ type
     function GetVersion(_Version: String; _VersionControl: TVersionControl): Integer;
   public
     procedure UpdateVersion;
-    function HasUpdatedVersion: Boolean;
+    function HasUpdatedVersion(_LocalVersion: String): Boolean;
   end;
 
 implementation
 
 uses
-  SysUtils, Math, Types, IOUtils, Classes, JSON, ShellAPI, Winapi.Windows, Vcl.Forms, uRequest, uConsts, uSystemInfo, uGithubReleases;
+  SysUtils, Types, IOUtils, Classes, ShellAPI, Winapi.Windows, Vcl.Forms, uRequest, uConsts, uGithubReleases;
 
 { TVersionUpdateController }
 
@@ -48,7 +48,7 @@ begin
         vcMajor:
         begin
           if not ACountDot = Ord(vcMajor) then
-            Exit(_Version.Substring(0, I - 1).ToInteger);
+            Exit(_Version.Substring(1, I - 1).ToInteger);
         end;
 
         vcMinor:
@@ -71,11 +71,10 @@ begin
   end;
 end;
 
-function TVersionUpdateController.HasUpdatedVersion: Boolean;
+function TVersionUpdateController.HasUpdatedVersion(_LocalVersion: String): Boolean;
 var
   AGithubReleases: TGithubReleases;
   AVersionRelease: String;
-  ALocalVersion: String;
   AHasMajorUpdate: Boolean;
   AHasMinorUpdate: Boolean;
   AHasPatchUpdate: Boolean;
@@ -88,10 +87,9 @@ begin
     AGithubReleases.Free;
   end;
 
-  ALocalVersion := TSystemInfo.GetClientVersion;
-  AHasMajorUpdate := GetVersion(AVersionRelease, vcMajor) > GetVersion(ALocalVersion, vcMajor);
-  AHasMinorUpdate := GetVersion(AVersionRelease, vcMinor) > GetVersion(ALocalVersion, vcMinor);
-  AHasPatchUpdate := GetVersion(AVersionRelease, vcPatch) > GetVersion(ALocalVersion, vcPatch);
+  AHasMajorUpdate := GetVersion(AVersionRelease, vcMajor) > GetVersion(_LocalVersion, vcMajor);
+  AHasMinorUpdate := GetVersion(AVersionRelease, vcMinor) > GetVersion(_LocalVersion, vcMinor);
+  AHasPatchUpdate := GetVersion(AVersionRelease, vcPatch) > GetVersion(_LocalVersion, vcPatch);
   Result := AHasMajorUpdate or AHasMinorUpdate or AHasPatchUpdate;
 end;
 
