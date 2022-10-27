@@ -71,4 +71,4 @@ modules/
 *DS_Store
 *Win32
 *Win64
-/unitTest/File2ExeFolder
+/unitTest/File2ExeFolder/source/company.ini
