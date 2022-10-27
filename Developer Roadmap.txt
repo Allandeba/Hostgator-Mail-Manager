@@ -1,57 +1,52 @@
-Requerido para funcionamento correto do sistema:
-  * E-mail cadastrado no domínio desejado para utilização.
-  * Uma ou mais contas de e-mails para administração.
-  * Token gerado na Hostgator para gerenciamento através de uma API.
+Required for correct system operation:
+  * Registered Email at the desired domain for use.
+  * One or more email accounts for administration.
+  * Hostgator generated token for management through an API.
 
-Abrir sistema pela primeira vez:
-  Gerenciador de atualizações:
-    * Buscar por novas atualizações do sistema.
-      * Caso exista, solicitar download da mesma.
-        * Após conclusão de download, abrir o executável para instalação da nova versão.
-      * Caso não autorize download, não abrir o programa.
-    * Caso não exista, prosseguir com abertura da tela de login.
+What is expected from the software:
+Opening software for the first time:
+  Version Control:
+    * Check for new software updates.
+      * If there are any updates, show a message and proceed to its download.
+        * After the download is complete, open the executable to install the new version.
+      * If it was not authorize to download the new release, do not open the software.
+    * If it does not exist, proceed with opening the login screen.
 
-  Verificar existência do arquivo de configuração "config.ini":
-    * Caso não exista um arquivo de configuração:
-      * Abrir a tela de configuração do sistema.
-    * Caso exista um arquivo de configuração "config.ini":
-      * Carregar configuração usando "Singleton" para ser utilizada no sistema.
-      * Popular informações para login do usuário (Usuário deve ser preenchido conforme arquivo de configuração)
-        * LabelEdit com Usuário e senha
+  Check the existence of the configuration file:
+    * If there is no configuration file:
+      * User must enter to the configuration screen and set the informations.	
+    * If there is a configuration file:
+      * Load configuration using "Singleton" to be used in the system.
+      * Populate user login information
 
-Configurações:
-  Ao abrir as configurações, caso exista informações populadas na Classe utilizada com Singleton, utiliza-las para popular os valores.
-  Necessidade de um Edit com possibilidade de mostrar ou não a senha digitada (Token)
-    * Ao selecionar "mostrar senha":
-      * Caso o sistema já tenha configurações salvas
-        * Solicitar tela de "acesso a API", validando o usuário administrador para mostrar o token.
-          * Caso acesso concedido, não solicitar mais o "acesso à API" para confirmação de usuário.
+Settings:
+  When opening the settings, if there is information populated in the Class used with Singleton, use it to populate the values.
+  Need an Edit with the possibility of showing or not the Token information
+    * Never load populated. To show the token information needs to retrieve it from configuration file using the admin's password.
 
-  Salvando novas configurações:
-    * Validar se todos os dados estão preenchidos;
-    * Salvo as informações do Token no arquivo "config.ini", criptografando essa informação.
-    * Salvar demais informações no arquivo "config.ini"
-    * Salvar configurações no SysInfo como "Singleton" para ser utilizado em todo o sistema.
+  Saving new settings:
+    * Validate if all data are filled in;
+    * Save the Token information into the config file, encrypting the information.
+    * Use the settings as "Singleton" to be used throughout the system after loggedin.
 
-Utilização do sistema:
-  Após efetuado login no sistema, carregar todas as contas de e-mail cadastradas para aquele domínio.
-    * Adicionar a informação em um ComboBox para seleção.
+System usage:
+  After logging in to the system, load all e-mail accounts registered for that domain.
+    * Add the information in a ComboBox for selection.
   
-  Usabilidade:
-    * Adição de novos e-mails.
-    * Alteração de senha de e-mails existentes.
-    * Deletar um e-mail existente.
-      * Caso seja solicitado para deletar/alterar uma conta de e-mail do usuário utilizado para acesso à aplicação, 
-        solicitar tela de "acesso a API" para confirmação de usuário.
+  Usability:
+    * Addition of new emails.
+    * Changing password of existing emails.
+    * Delete an existing email.
+    * If requested to change an email account of the user used to access the application, it needs to request "API access" screen for user confirmation.
+    * Never lets delete the admin user.
 
-Tratamento de erros:
-  * Necessidade de utilização de uma mensagem tratada para erros no sistema
-  * Demonstrar uma mensagem amigável com o erro reportado.
+Error handling:
+  * Need to use a message handled for system errors
+  * Demonstrate a friendly message with the reported error.
 
-Testes unitários:
-  * Necessidade de criação de um teste unitário que garanta pleno funcionamento das funcionalidades do sistema:
-    * Acesso;
-    * Inclusão de e-mail;
-    * Alteração de senhas;
-    * Exclusão de e-mails;
-
+Unitary tests:
+  * Need to create a unit test that guarantees full functionality of the system:
+    * Access;
+    * Inclusion of email;
+    * Changing passwords;
+    * Deletion of emails;
