@@ -436,7 +436,10 @@ begin
         HostgatorMainManagerController.ChangePassword(AHostgatorMailManager);
 
       Ord(oDeleteEmail):
+      begin
         HostgatorMainManagerController.DeleteEmail(AHostgatorMailManager);
+        LoadUsernameComboBox;
+      end;
     end;
   finally
     AHostgatorMailManager.Free;
