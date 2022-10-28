@@ -10,6 +10,7 @@ type
   TBaseView = class(TFrameworkView)
   private
     procedure AddImage(_AImagePasswordButtonEditList: TImagePasswordButtonEditList; _AImageFilePath: String);
+    function GetTokenInformationInMemory: String;
   protected
     procedure AddImagesToADPasswordButtonedEdit(_ADPasswordButtonedEdit: TADPasswordButtonedEdit);
     procedure AddImageToImageComponent(_Image: TImage; _ImageFilePath: String);
@@ -23,7 +24,7 @@ type
 implementation
 
 uses
-  uFrameworkMessage, uMessages, uTokenManager, uSystemInfo;
+  uFrameworkMessage, uMessages, uTokenManager, uSystemInfo, uSessionManager;
 
 {$R *.dfm}
 
@@ -99,13 +100,23 @@ function TBaseView.GetTokenInformation: String;
 const
   PASSWORD_CHAR = #9;
 var
+  AHasFileSaved: Boolean;
   APassword: String;
 begin
+  AHasFileSaved := FileExists(TSystemInfo.GetFilePathTokenConfiguration);
+  if not AHasFileSaved  then
+    Exit(GetTokenInformationInMemory);
+
   APassword := InputBox('Retrieve token information', PASSWORD_CHAR + 'Please enter the main user password', '');
   if APassword.IsEmpty then
     Exit;
 
   Result := TTokenManager.GetToken(APassword);
+end;
+
+function TBaseView.GetTokenInformationInMemory: String;
+begin
+  Result := TSessionManager.GetSessionInfo.Token;
 end;
 
 end.
