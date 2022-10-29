@@ -61,7 +61,7 @@ begin
   AStringList := TStringList.Create;
   try
     AStringList.LoadFromFile(VERSION_PATH);
-    Result := AStringList.Values[FILENAME_VERSION_API];
+    Result := AStringList.Values[VERSION_PARAM];
   finally
     AStringList.Free;
   end;
