@@ -2,10 +2,13 @@
 
 [![Release](https://img.shields.io/github/v/release/Allandeba/Hostgator-Mail-Manager.svg)](https://github.com/Allandeba/Hostgator-Mail-Manager/releases)
 
+<a href="https://www.buymeacoffee.com/allandeba" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 137px !important;" ></a>
+
 ## Overview
-The purpose of the software is to help you with:
-- Give the opportunity to any user administrate the emails from Hostgator.com
-- An user not dependency of you always needs to create a new email for the domain nor delete or change password
+The purpose of the software is to help you in:
+- Give the power for the buyer of Hostgator.com plans to proposing the authonomy to their clients to add new e-mails, change passwords and delete e-mails for each domain, not being requested to do it and saving their time. 
+All the software designed to be easy to use, intuitive, practicle, elegant and safety.
 
 ## Content
 - [Quick start](#quick-start)
