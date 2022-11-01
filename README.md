@@ -16,7 +16,10 @@ All the software designed to be easy to use, intuitive, practicle, elegant and s
 - [Unity tests](#unity-tests)
 
 ## Quick start
-- First of all, you need to create a new API Token. In order to do it you need to go to yout cPanel from Hostgator and click at "Manage API Token" button.
+- First of all, download the latest version here: [Latest release](https://github.com/Allandeba/Hostgator-Mail-Manager/releases) 
+and click at the ```Hostgator.Mail.Manager.exe```
+
+- Now you will need to create a new API Token. In order to do it you need to go to yout cPanel from Hostgator and click at "Manage API Token" button.
 
 ![Manage API token](https://github.com/Allandeba/Hostgator-Mail-Manager/blob/main/img/API%20Token.png)
 
