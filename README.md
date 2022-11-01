@@ -6,9 +6,8 @@
   <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 137px !important;" ></a>
 
 ## Overview
-The purpose of the software is to help you in:
-- Give the power for the buyer of Hostgator.com plans to proposing the authonomy to their clients to add new e-mails, change passwords and delete e-mails for each domain, not being requested to do it and saving their time. 
-All the software designed to be easy to use, intuitive, practicle, elegant and safety.
+- With an easy mode operation, intuitive, practical, stylish and safe, Hostgator Mail Manager was developed with an easy readable code and good interpretation, using the best code practicing and base architecture which can be used in many other projects. 
+- The goal of it is to help each person to have more independence on their daily routine at work and being able to focus on what really matters.
 
 ## Content
 - [Quick start](#quick-start)
