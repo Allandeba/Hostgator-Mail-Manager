@@ -28,6 +28,12 @@ and click at the ```Hostgator.Mail.Manager.exe```
 
 ![User information](https://github.com/Allandeba/Hostgator-Mail-Manager/blob/main/img/User%20Information.png)
 
+- Create now the user to access the API
+
+![Create an email](https://github.com/Allandeba/Hostgator-Mail-Manager/blob/main/img/create%20email.png)
+![Create an email](https://github.com/Allandeba/Hostgator-Mail-Manager/blob/main/img/create%20new%20email.png)
+![Create an email](https://github.com/Allandeba/Hostgator-Mail-Manager/blob/main/img/set%20username.png)
+
 - All right now you just need to fill in the user information at the application.
 Open the Hostgator Mail Manager and click to the configuration icon.
 
